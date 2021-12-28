@@ -10,14 +10,14 @@ import javafx.stage.Stage;
 
 public class BoardGUI extends Application{
 
-    int numberOfPlayers = 4;
+    int numberOfPlayers = 6;
 
     public static final int sideLength = 5;
     public static final int radius = 15;
 
     // Maximum width and height of the board
-    public static final int WIDTH = 25;
-    public static final int HEIGHT = 17;
+    public static final int height = 17;
+    public static final int width = 25;
 
     // Width of each row of the board
     private static final int[] WIDTHS = {
@@ -31,15 +31,15 @@ public class BoardGUI extends Application{
         gameBoard.setAlignment(Pos.CENTER);
         gameBoard.setVgap(10);
 
-        Tile[][] arrayOfTiles = new Tile[HEIGHT][WIDTH];
+        Tile[][] arrayOfTiles = new Tile[height][width];
 
-        Board board = new Board(HEIGHT, WIDTH, numberOfPlayers, sideLength);
+        Board board = new Board(height, width, numberOfPlayers, sideLength);
 
-        for (int i = 0; i < HEIGHT; i++) {
+        for (int i = 0; i < height; i++) {
 
-            for (int j = 0; j < WIDTH; j++) {
+            for (int j = 0; j < width; j++) {
 
-                int temp = (WIDTH - (WIDTHS[i] + WIDTHS[i] - 1)) / 2;
+                int temp = (width - (WIDTHS[i] + WIDTHS[i] - 1)) / 2;
                 int temp2 = temp + WIDTHS[i] + WIDTHS[i] - 1;
 
                 Tile tile;
@@ -77,15 +77,15 @@ public class BoardGUI extends Application{
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         //Width and height of decoration of a window
         double decorationWidth;
         double decorationHeight;
 
         //Width and height of a scene
-        final double initialSceneWidth = radius*2*HEIGHT;
-        final double initialSceneHeight = radius*2*WIDTH;
+        final double initialSceneWidth = radius*2* height;
+        final double initialSceneHeight = radius*2* width;
 
         decorationWidth = primaryStage.getWidth() - initialSceneWidth;
         decorationHeight = primaryStage.getHeight() - initialSceneHeight;
@@ -99,7 +99,7 @@ public class BoardGUI extends Application{
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public void launchWindow() {
         launch();
     }
 }
