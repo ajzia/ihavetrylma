@@ -99,7 +99,7 @@ public class BoardGUI extends Application{
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public void launchWindow() {
         launch();
     }
 }

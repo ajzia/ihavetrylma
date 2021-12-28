@@ -16,7 +16,6 @@ public class Board {
     }
 
     public void makePieces(Tile[][] arrayOfTiles) {
-
         switch (numberOfPlayers) {
             case 2 -> setForTwo(arrayOfTiles);
             case 3 -> setForThree(arrayOfTiles);
