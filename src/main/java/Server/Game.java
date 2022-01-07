@@ -8,13 +8,16 @@ public class Game {
 
     ArrayList<Player> players = new ArrayList<>();
 
+    // TODO: dummy board with validation
     public void communication(String command) {
+
+    }
+
+    public void sendToAll(String command) {
         for (Player p : players) {
             p.sendMessage(command);
         }
-
     }
 }
 
-// komunikacja? // ruszanie pionów??
 

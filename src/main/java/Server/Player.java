@@ -16,7 +16,7 @@ public class Player implements Runnable {
     public Player(Socket socket, Game game) {
         this.socket = socket;
         this.game = game;
-        game.players.add(this); // ??????
+        game.players.add(this);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Player implements Runnable {
             if (command.startsWith("QUIT")) {
                 // do : quit
             }
-            else if (command.startsWith("COLOR")) {
+            else if (command.startsWith("MOVE")) {
                 game.communication(command);
             }
         }

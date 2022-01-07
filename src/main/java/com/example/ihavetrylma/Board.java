@@ -25,43 +25,43 @@ public class Board {
 
     // Width of each row of the triangle
     private static final int[] WIDTHS = {
-            1,2,3,4,5,6,7,8,9,10,11,12,13
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
     };
 
-    public void createTiles(){
-        int temp = WIDTHS[WIDTHS.length-1];
+    public void createTiles() {
+        int temp = WIDTHS[WIDTHS.length - 1];
         Tile tile;
 
         //create triangle of tiles
-        for(int i = 0; i < WIDTHS[WIDTHS.length-1]; i++){
+        for (int i = 0; i < WIDTHS[WIDTHS.length - 1]; i++) {
             temp = temp - i;
-            for(int j = 0; j < WIDTHS[i]; j++) {
-                tile = new Tile( temp, i, this);
+            for (int j = 0; j < WIDTHS[i]; j++) {
+                tile = new Tile(temp, i, this);
                 arrayOfTiles[temp][i] = tile;
 
                 gameBoard.add(tile, temp, i, 1, 1);
 
                 temp = temp + 2;
             }
-            temp = WIDTHS[WIDTHS.length-1];
+            temp = WIDTHS[WIDTHS.length - 1];
         }
 
         //create inverted triangle of tiles
         int temp2 = 0;
-        for(int i = 16; i > 3; i--){
+        for (int i = 16; i > 3; i--) {
             temp = temp - temp2;
-            for(int j = 0; j < WIDTHS[temp2]; j++) {
+            for (int j = 0; j < WIDTHS[temp2]; j++) {
                 //check if tiles already exists
-                if(arrayOfTiles[temp][i] == null) {
+                if (arrayOfTiles[temp][i] == null) {
                     tile = new Tile(temp, i, this);
                     arrayOfTiles[temp][i] = tile;
 
                     gameBoard.add(tile, temp, i, 1, 1);
 
                 }
-                temp=temp+2;
+                temp = temp + 2;
             }
-            temp = WIDTHS[WIDTHS.length-1];
+            temp = WIDTHS[WIDTHS.length - 1];
             temp2++;
         }
     }
@@ -75,6 +75,7 @@ public class Board {
             default -> System.out.println("Wrong number of players");
         }
     }
+
     private void setForTwo() {
         setFirstPlayer();
         setFourthPlayer();
@@ -86,7 +87,7 @@ public class Board {
         setSixthPlayer();
     }
 
-    private void setForFour(){
+    private void setForFour() {
         setSecondPlayer();
         setThirdPlayer();
         setFifthPlayer();
@@ -102,20 +103,27 @@ public class Board {
         setSixthPlayer();
     }
 
-    public void addPiece(int column, int row, int owner){
+    public void addPiece(int column, int row, int owner) {
         arrayOfTiles[column][row].setOwner(owner);
     }
 
-    public void removePiece(int column, int row){
+    public void removePiece(int column, int row) {
         arrayOfTiles[column][row].setOwner(-1);
     }
 
-    public void movePiece(int oldColumn, int oldRow, int newColumn, int newRow){
-        addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
-        removePiece(oldColumn, oldRow);
+    public void movePiece(int oldColumn, int oldRow, int newColumn, int newRow) {
+        int oldOwner = arrayOfTiles[oldColumn][oldRow].getOwner();
+        int newOwner = arrayOfTiles[newColumn][newRow].getOwner();
+
+        GameRules gameRules = new GameRules(oldColumn, oldRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
+
+        if (gameRules.checkIfValid()) {
+            addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
+            removePiece(oldColumn, oldRow);
+        }
     }
 
-    private void setFirstPlayer(){
+    private void setFirstPlayer() {
         addPiece(13, 0, 0);
         addPiece(12, 1, 0);
         addPiece(14, 1, 0);
@@ -128,7 +136,7 @@ public class Board {
         addPiece(16, 3, 0);
     }
 
-    private void setSecondPlayer(){
+    private void setSecondPlayer() {
         addPiece(25, 4, 1);
         addPiece(23, 4, 1);
         addPiece(21, 4, 1);
@@ -141,7 +149,7 @@ public class Board {
         addPiece(22, 7, 1);
     }
 
-    private void setThirdPlayer(){
+    private void setThirdPlayer() {
         addPiece(22, 9, 2);
         addPiece(21, 10, 2);
         addPiece(23, 10, 2);
@@ -154,7 +162,7 @@ public class Board {
         addPiece(19, 12, 2);
     }
 
-    private void setFourthPlayer(){
+    private void setFourthPlayer() {
         addPiece(13, 16, 3);
         addPiece(12, 15, 3);
         addPiece(14, 15, 3);
@@ -167,7 +175,7 @@ public class Board {
         addPiece(16, 13, 3);
     }
 
-    private void setFifthPlayer(){
+    private void setFifthPlayer() {
         addPiece(4, 9, 4);
         addPiece(3, 10, 4);
         addPiece(5, 10, 4);
@@ -180,7 +188,7 @@ public class Board {
         addPiece(7, 12, 4);
     }
 
-    private void setSixthPlayer(){
+    private void setSixthPlayer() {
         addPiece(1, 4, 5);
         addPiece(3, 4, 5);
         addPiece(5, 4, 5);

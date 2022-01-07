@@ -6,10 +6,11 @@ import java.util.Scanner;
 
 // slucha i wyswietla
 public class Client {
-
     private Socket socket;
     private Scanner in;
     private static PrintWriter out;
+
+    BoardGUI boardGUI;
 
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
@@ -21,14 +22,14 @@ public class Client {
     }
 
     public Client(String serverAddress) throws Exception {
-        // Laczenie z serwerem
         socket = new Socket(serverAddress, 15371);
 
         // Zdefiniowanie Skanera opartego na streamie wejściowym (cos przychodzi z serwera)
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
 
-        new BoardGUI().launchWindow();
+        boardGUI = new BoardGUI();
+        boardGUI.launchWindow();
     }
 
     public void play() throws Exception {
@@ -38,8 +39,10 @@ public class Client {
             // W zaleznosci jaki komunikat przyszedl
             while (in.hasNextLine()) {
                 response = in.nextLine();
-                if (response.startsWith("VALID_MOVE")) {
-
+                if (response.startsWith("MOVE")) {
+                    // TODO: moving pieces
+                    String[] move = response.split(" ");
+                    //boardGUI.getBoard().makeMove(Integer.parseInt(move[1]), Integer.parseInt(move[2]), Integer.parseInt(move[3]), Integer.parseInt(move[4]));
                 }
             }
             out.println("QUIT");
@@ -51,13 +54,11 @@ public class Client {
     }
 
     public static void action(String action) {
-        if(action.startsWith("Siema")) {
+        if (action.startsWith("Siema")) {
             System.out.println("elo");
 
-        } else if (action.startsWith("COLOR")) {
-            action.split(" ");
+        } else if (action.startsWith("MOVE")) {
             out.println(action);
-
         }
     }
 
