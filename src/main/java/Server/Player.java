@@ -17,6 +17,7 @@ public class Player implements Runnable {
         this.socket = socket;
         this.game = game;
         game.players.add(this);
+        System.out.println(game.players.size());
     }
 
     @Override
@@ -26,27 +27,37 @@ public class Player implements Runnable {
             processCommands();
         } catch (Exception e) {
             e.printStackTrace();
-        } try {
+        }
+        try {
             socket.close();
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
     private void setup() throws IOException {
         // Poczatek gry
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
-        out.println("WELCOME");
     }
 
     private void processCommands() {
         while (in.hasNextLine()) {
             // command from server
             var command = in.nextLine();
-            if (command.startsWith("QUIT")) {
-                // do : quit
-            }
-            else if (command.startsWith("MOVE")) {
+
+            if (command.startsWith("MOVE")) {
                 game.communication(command);
+
+            } else if (command.startsWith("PLAYER")) {
+                out.println("PLAYER" + " " + game.currentPlayers() + " " + game.getGoalPlayers());
+
+            } else if (command.startsWith("GOAL")) {
+                String[] goal = command.split(" ");
+                game.setGoalPlayers(Integer.parseInt(goal[1]));
+
+            } else if (command.startsWith("START")) {
+                game.sendToAll("START " + game.currentPlayers());
+
             }
         }
     }

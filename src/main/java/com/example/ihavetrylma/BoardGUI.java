@@ -9,13 +9,17 @@ import javafx.stage.Stage;
 
 public class BoardGUI extends Application{
 
-    int numberOfPlayers = 3;
+    private static int numberOfPlayers;
 
     public static final int sideLength = 5;
 
     // Maximum width and height of the board
     public static final int height = 17;
     public static final int width = 26;
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        BoardGUI.numberOfPlayers = numberOfPlayers;
+    }
 
     public Parent createBoard() {
 

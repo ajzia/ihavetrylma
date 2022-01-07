@@ -38,21 +38,20 @@ public class Client {
                 System.out.println(response);
                 if (response.startsWith("MOVE")) {
                     // TODO: moving pieces
-                    String[] move = response.split(" ");
+                    // String[] move = response.split(" ");
                     //boardGUI.getBoard().makeMove(Integer.parseInt(move[1]), Integer.parseInt(move[2]), Integer.parseInt(move[3]), Integer.parseInt(move[4]));
 
                 } else if (response.startsWith("PLAYER")) {
                     System.out.println("Client2");
-                    String[] move = response.split(" "); // START + active players + goal for players
+                    String[] move = response.split(" "); // PLAYER + active players + goal for players
                     int active = Integer.parseInt(move[1]);
                     int goal = Integer.parseInt(move[2]);
 
                     if (active == 1 || active < goal) {
-                        System.out.println("Client3");
-                        //lobby = new Lobby(active);
+                        lobby = new Lobby(active);
 
-                    } else if (active == goal) {
-                        //lobby = new Lobby(active);
+                    } else if (active == goal) {            // start game
+                        lobby = new Lobby(active);
                         out.println("START");
                     } else System.out.println("default");   // do nothing
 
@@ -67,7 +66,6 @@ public class Client {
                     boardGUI.launchWindow();
                 }
             }
-            out.println("QUIT");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -76,7 +74,6 @@ public class Client {
     }
 
     public static void makeAction(String action) {
-        System.out.println("Client1");
         out.println(action);
     }
 

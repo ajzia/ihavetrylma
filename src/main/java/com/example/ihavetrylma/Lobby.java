@@ -3,11 +3,15 @@ package com.example.ihavetrylma;
 import javax.swing.*;
 import java.awt.*;
 
+import static com.example.ihavetrylma.Client.makeAction;
+
 public class Lobby extends JFrame {
 
+    WaitingRoom waitingRoom;
     int players;
 
-    Lobby() {
+    Lobby(int active) {
+        if (active == 1) {
             this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             this.setResizable(true);
             this.setLayout(null);
@@ -19,6 +23,8 @@ public class Lobby extends JFrame {
             addButtons();
 
             this.setVisible(true);
+        } else makeWaitingRoom();
+
     }
 
     public void addTextArea() {
@@ -45,28 +51,42 @@ public class Lobby extends JFrame {
 
         two.addActionListener(e -> {
             players = 2;
-            this.dispose();
+            clicked();
         });
 
         three.addActionListener(e -> {
             players = 3;
-            this.dispose();
+            clicked();
         });
 
         four.addActionListener(e -> {
             players = 4;
-            this.dispose();
+            clicked();
         });
 
         six.addActionListener(e -> {
             players = 6;
-            this.dispose();
+            clicked();
         });
 
         this.add(two);
         this.add(three);
         this.add(four);
         this.add(six);
+    }
+
+    public void clicked() {
+        makeAction("GOAL" + " " + players);
+        this.dispose();
+        makeWaitingRoom();
+    }
+
+    public void makeWaitingRoom() {
+        waitingRoom = new WaitingRoom();
+    }
+
+    public WaitingRoom getWaitingRoom() {
+        return waitingRoom;
     }
 
 }
