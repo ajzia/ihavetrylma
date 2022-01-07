@@ -4,11 +4,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-// slucha i wyswietla
 public class Client {
     private Socket socket;
     private Scanner in;
     private static PrintWriter out;
+
+    private Lobby lobby;
 
     BoardGUI boardGUI;
 
@@ -24,25 +25,46 @@ public class Client {
     public Client(String serverAddress) throws Exception {
         socket = new Socket(serverAddress, 15371);
 
-        // Zdefiniowanie Skanera opartego na streamie wejściowym (cos przychodzi z serwera)
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
 
-        boardGUI = new BoardGUI();
-        boardGUI.launchWindow();
+        makeAction("PLAYER");
     }
 
     public void play() throws Exception {
         try {
-            // komunikat z serwera
-            var response = in.nextLine();
-            // W zaleznosci jaki komunikat przyszedl
             while (in.hasNextLine()) {
-                response = in.nextLine();
+                var response = in.nextLine();
+                System.out.println(response);
                 if (response.startsWith("MOVE")) {
                     // TODO: moving pieces
                     String[] move = response.split(" ");
                     //boardGUI.getBoard().makeMove(Integer.parseInt(move[1]), Integer.parseInt(move[2]), Integer.parseInt(move[3]), Integer.parseInt(move[4]));
+
+                } else if (response.startsWith("PLAYER")) {
+                    System.out.println("Client2");
+                    String[] move = response.split(" "); // START + active players + goal for players
+                    int active = Integer.parseInt(move[1]);
+                    int goal = Integer.parseInt(move[2]);
+
+                    if (active == 1 || active < goal) {
+                        System.out.println("Client3");
+                        //lobby = new Lobby(active);
+
+                    } else if (active == goal) {
+                        //lobby = new Lobby(active);
+                        out.println("START");
+                    } else System.out.println("default");   // do nothing
+
+                } else if (response.startsWith("START")) {
+                    String[] move = response.split(" ");
+                    int active = Integer.parseInt(move[1]);
+
+                    lobby.getWaitingRoom().dispose();
+
+                    boardGUI = new BoardGUI();
+                    boardGUI.setNumberOfPlayers(active);
+                    boardGUI.launchWindow();
                 }
             }
             out.println("QUIT");
@@ -53,13 +75,9 @@ public class Client {
         }
     }
 
-    public static void action(String action) {
-        if (action.startsWith("Siema")) {
-            System.out.println("elo");
-
-        } else if (action.startsWith("MOVE")) {
-            out.println(action);
-        }
+    public static void makeAction(String action) {
+        System.out.println("Client1");
+        out.println(action);
     }
 
 }
