@@ -2,6 +2,8 @@ package com.example.ihavetrylma;
 
 import javafx.scene.layout.GridPane;
 
+import static com.example.ihavetrylma.Client.makeAction;
+
 public class Board {
 
     int numberOfPlayers;
@@ -112,11 +114,14 @@ public class Board {
     }
 
     public void movePiece(int oldColumn, int oldRow, int newColumn, int newRow) {
+        makeAction("MOVE " + oldColumn + " " + oldRow + " " + newColumn + " " + newRow);    // Move x1 y1 x2 y2
+    }
+
+    public void makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
         int oldOwner = arrayOfTiles[oldColumn][oldRow].getOwner();
         int newOwner = arrayOfTiles[newColumn][newRow].getOwner();
 
         GameRules gameRules = new GameRules(oldColumn, oldRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
-
         if (gameRules.checkIfValid()) {
             addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
             removePiece(oldColumn, oldRow);

@@ -10,7 +10,6 @@ public class Game {
 
     public void setGoalPlayers(int goalPlayers) {   // game for how many
         this.goalPlayers = goalPlayers;
-        System.out.println();
     }
 
     public int getGoalPlayers() {

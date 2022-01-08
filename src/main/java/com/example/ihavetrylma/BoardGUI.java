@@ -7,9 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class BoardGUI extends Application{
+public class BoardGUI extends Application {
 
-    private static int numberOfPlayers;
+    private static volatile BoardGUI instance;
+    static int numberOfPlayers;
+    Board board;
 
     public static final int sideLength = 5;
 
@@ -17,38 +19,61 @@ public class BoardGUI extends Application{
     public static final int height = 17;
     public static final int width = 26;
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
+    public static void setNumberOfPlayers(int numberOfPlayers) {
         BoardGUI.numberOfPlayers = numberOfPlayers;
     }
 
     public Parent createBoard() {
-
-        //Setting a layout
         GridPane gameBoard = new GridPane();
         gameBoard.setAlignment(Pos.CENTER);
         gameBoard.setVgap(10);
 
         Tile[][] arrayOfTiles = new Tile[width][height];
 
-        Board board = new Board(height, width, arrayOfTiles, numberOfPlayers, sideLength, gameBoard);
-        board.createTiles();
-        board.makePieces();
+        makeBoard(arrayOfTiles, gameBoard);
 
         return gameBoard;
     }
 
     @Override
     public void start(Stage primaryStage) {
+        instance = this;
 
+        System.out.println("start");
         Scene scene = new Scene(createBoard());
         primaryStage.setTitle("ChineseCheckers");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-
     }
 
-    public void launchWindow() {
-        launch();
+    public void makeBoard(Tile[][] arrayOfTiles, GridPane gameBoard) {
+        Board board1 = new Board(height, width, arrayOfTiles, numberOfPlayers, sideLength, gameBoard);
+        board1.createTiles();
+        board1.makePieces();
+        setBoard(board1);
     }
+
+    public void setBoard(Board board) {
+        System.out.println(board);
+        this.board = board;
+        System.out.println(this);
+    }
+
+    public Board getBoard() {
+        System.out.println(this.board);
+        return this.board;
+    }
+
+    public static BoardGUI getInstance() {
+        if (instance == null) {
+            synchronized (BoardGUI.class) {
+                if (instance == null) {
+                    launch();
+                }
+            }
+        }
+        return instance;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.ihavetrylma;
 
+import javafx.application.Platform;
+
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -23,7 +25,7 @@ public class Client {
     }
 
     public Client(String serverAddress) throws Exception {
-        socket = new Socket(serverAddress, 15371);
+        socket = new Socket(serverAddress, 15375);
 
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -37,9 +39,13 @@ public class Client {
                 var response = in.nextLine();
                 System.out.println(response);
                 if (response.startsWith("MOVE")) {
-                    // TODO: moving pieces
-                    // String[] move = response.split(" ");
-                    //boardGUI.getBoard().makeMove(Integer.parseInt(move[1]), Integer.parseInt(move[2]), Integer.parseInt(move[3]), Integer.parseInt(move[4]));
+                    String[] move = response.split(" ");
+                    int x1 = Integer.parseInt(move[1]);
+                    int y1 = Integer.parseInt(move[2]);
+                    int x2 = Integer.parseInt(move[3]);
+                    int y2 = Integer.parseInt(move[4]);
+
+                    BoardGUI.getInstance().getBoard().makeMove(x1, y1, x2, y2);
 
                 } else if (response.startsWith("PLAYER")) {
                     System.out.println("Client2");
@@ -61,9 +67,10 @@ public class Client {
 
                     lobby.getWaitingRoom().dispose();
 
-                    boardGUI = new BoardGUI();
-                    boardGUI.setNumberOfPlayers(active);
-                    boardGUI.launchWindow();
+                    BoardGUI.setNumberOfPlayers(active);
+                    Thread thed = new Thread(() -> boardGUI = BoardGUI.getInstance());
+                    thed.start();
+
                 }
             }
         } catch (Exception e) {

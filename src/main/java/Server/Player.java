@@ -30,7 +30,7 @@ public class Player implements Runnable {
         }
         try {
             socket.close();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 
@@ -46,7 +46,7 @@ public class Player implements Runnable {
             var command = in.nextLine();
 
             if (command.startsWith("MOVE")) {
-                game.communication(command);
+                game.sendToAll(command);
 
             } else if (command.startsWith("PLAYER")) {
                 out.println("PLAYER" + " " + game.currentPlayers() + " " + game.getGoalPlayers());
