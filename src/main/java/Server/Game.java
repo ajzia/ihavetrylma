@@ -6,9 +6,15 @@ public class Game {
 
     int goalPlayers = 0;
 
+    private static final int side = 5;
+    private static final int height = 17;
+    private static final int width = 26;
+
+    GameBoard gameBoard;
+
     ArrayList<Player> players = new ArrayList<>();
 
-    public void setGoalPlayers(int goalPlayers) {   // game for how many
+    public void setGoalPlayers(int goalPlayers) {
         this.goalPlayers = goalPlayers;
     }
 
@@ -20,10 +26,11 @@ public class Game {
         return players.size();
     }
 
-    // TODO: dummy board with validation
-
-    public void communication(String command) {
-
+    public void makeBoard() {
+        GameTile[][] tile = new GameTile[width][height];
+        gameBoard = new GameBoard(width, height, tile, goalPlayers, side);
+        gameBoard.createTiles();
+        gameBoard.makePieces();
     }
 
     public void sendToAll(String command) {
@@ -32,5 +39,3 @@ public class Game {
         }
     }
 }
-
-
