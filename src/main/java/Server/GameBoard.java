@@ -97,9 +97,17 @@ public class GameBoard {
         arrayOfTiles[column][row].setOwner(-1);
     }
 
-    public void makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
+    public boolean makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
+        int oldOwner = arrayOfTiles[oldColumn][oldRow].getOwner();
+        int newOwner = arrayOfTiles[newColumn][newRow].getOwner();
+
+        GameRules gameRules = new GameRules(oldColumn, oldRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
+        if (gameRules.isValid()) {
             addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
             removePiece(oldColumn, oldRow);
+            return true;
+        }
+        return false;
     }
 
     private void setFirstPlayer() {

@@ -13,7 +13,7 @@ public class GameTile extends Circle {
         return owner != -1;
     }
 
-    GameTile(int column, int row, GameBoard board){
+    GameTile(int column, int row, GameBoard board) {
         this.column = column;
         this.row = row;
         this.board = board;
@@ -23,7 +23,7 @@ public class GameTile extends Circle {
         setStrokeWidth(3);
     }
 
-    public void setOwner(int owner){
+    public void setOwner(int owner) {
         this.owner = owner;
         setFill(getColor());
     }
@@ -32,20 +32,16 @@ public class GameTile extends Circle {
         return owner;
     }
 
-    public Color getColor(){
-        if(owner == 0 ){
-            return Color.web("#FCC6F6");
-        }else if(owner == 1){
-            return Color.web("#BC64FF");
-        }else if(owner == 2){
-            return Color.web("#3E40EC");
-        }else if(owner == 3){
-            return Color.web("#75D23D");
-        }else if(owner == 4){
-            return Color.web("#BD3335");
-        }else if(owner == 5){
-            return Color.web("#FE9F04");
-        }
-        return Color.web("#F3F3F3");
+    public Color getColor() {
+        return switch (owner) {
+            case 0 -> Color.web("#FCC6F6");
+            case 1 -> Color.web("#BC64FF");
+            case 2 -> Color.web("#3E40EC");
+            case 3 -> Color.web("#75D23D");
+            case 4 -> Color.web("#BD3335");
+            case 5 -> Color.web("#FE9F04");
+            default -> Color.web("#F3F3F3");
+        };
     }
+
 }

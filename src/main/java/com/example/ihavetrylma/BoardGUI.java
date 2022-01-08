@@ -39,7 +39,6 @@ public class BoardGUI extends Application {
     public void start(Stage primaryStage) {
         instance = this;
 
-        System.out.println("start");
         Scene scene = new Scene(createBoard());
         primaryStage.setTitle("ChineseCheckers");
         primaryStage.setScene(scene);
@@ -55,14 +54,11 @@ public class BoardGUI extends Application {
     }
 
     public void setBoard(Board board) {
-        System.out.println(board);
         this.board = board;
-        System.out.println(this);
     }
 
     public Board getBoard() {
-        System.out.println(this.board);
-        return this.board;
+        return board;
     }
 
     public static BoardGUI getInstance() {
