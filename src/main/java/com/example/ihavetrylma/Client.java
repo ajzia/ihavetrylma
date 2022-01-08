@@ -1,7 +1,5 @@
 package com.example.ihavetrylma;
 
-import javafx.application.Platform;
-
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -11,9 +9,8 @@ public class Client {
     private Scanner in;
     private static PrintWriter out;
 
-    private Lobby lobby;
-
     BoardGUI boardGUI;
+    private Lobby lobby;
 
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
@@ -36,8 +33,7 @@ public class Client {
     public void play() throws Exception {
         try {
             while (in.hasNextLine()) {
-                var response = in.nextLine();
-                System.out.println(response);
+                String response = in.nextLine();
                 if (response.startsWith("MOVE")) {
                     String[] move = response.split(" ");
                     int x1 = Integer.parseInt(move[1]);
@@ -48,7 +44,6 @@ public class Client {
                     BoardGUI.getInstance().getBoard().makeMove(x1, y1, x2, y2);
 
                 } else if (response.startsWith("PLAYER")) {
-                    System.out.println("Client2");
                     String[] move = response.split(" "); // PLAYER + active players + goal for players
                     int active = Integer.parseInt(move[1]);
                     int goal = Integer.parseInt(move[2]);
@@ -58,8 +53,10 @@ public class Client {
 
                     } else if (active == goal) {            // start game
                         lobby = new Lobby(active);
+
                         out.println("START");
-                    } else System.out.println("default");   // do nothing
+
+                    } else System.out.println("The game already started!");   // do nothing
 
                 } else if (response.startsWith("START")) {
                     String[] move = response.split(" ");
@@ -70,6 +67,9 @@ public class Client {
                     BoardGUI.setNumberOfPlayers(active);
                     Thread thed = new Thread(() -> boardGUI = BoardGUI.getInstance());
                     thed.start();
+
+                } else if (response.startsWith("INVALID_MOVE")) {
+                    System.out.println("Invalid move, try again!");
 
                 }
             }

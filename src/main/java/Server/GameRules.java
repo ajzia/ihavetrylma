@@ -1,4 +1,4 @@
-package com.example.ihavetrylma;
+package Server;
 
 public class GameRules {
 
@@ -8,9 +8,9 @@ public class GameRules {
     private final int newRow;
     private final int oldOwner;
     private final int newOwner;
-    private final Tile[][] arrayOfTiles;
+    private final GameTile[][] arrayOfTiles;
 
-    public GameRules(int oldColumn, int oldRow, int newColumn, int newRow, int oldOwner, int newOwner, Tile[][] arrayOfTiles) {
+    public GameRules(int oldColumn, int oldRow, int newColumn, int newRow, int oldOwner, int newOwner, GameTile[][] arrayOfTiles) {
         this.oldColumn = oldColumn;
         this.oldRow = oldRow;
         this.newColumn = newColumn;
@@ -20,7 +20,7 @@ public class GameRules {
         this.arrayOfTiles = arrayOfTiles;
     }
 
-    public boolean checkIfValid() {
+    public boolean isValid() {
         if (yourPiece()) {               // is it your piece? if yes - it's not a valid move
             return false;
         } else if (!emptyTile()) {      // is this tile empty? if not - it's not a valid move

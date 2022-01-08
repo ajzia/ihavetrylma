@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-// slucha i mowi
 public class Player implements Runnable {
 
     private Socket socket;
@@ -13,11 +12,25 @@ public class Player implements Runnable {
     private PrintWriter out;
     private Game game;
 
+    private int color;
+
     public Player(Socket socket, Game game) {
         this.socket = socket;
         this.game = game;
-        game.players.add(this);
-        System.out.println(game.players.size());
+
+        if (game.currentPlayers() <= game.getGoalPlayers()) {
+            game.players.add(this);
+        }
+
+        System.out.println(game.currentPlayers());
+    }
+
+    protected void setColor(int color) {
+        this.color = color;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     @Override
@@ -35,20 +48,14 @@ public class Player implements Runnable {
     }
 
     private void setup() throws IOException {
-        // Poczatek gry
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
     }
 
     private void processCommands() {
         while (in.hasNextLine()) {
-            // command from server
-            var command = in.nextLine();
-
-            if (command.startsWith("MOVE")) {
-                game.sendToAll(command);
-
-            } else if (command.startsWith("PLAYER")) {
+            String command = in.nextLine();
+            if (command.startsWith("PLAYER")) {
                 out.println("PLAYER" + " " + game.currentPlayers() + " " + game.getGoalPlayers());
 
             } else if (command.startsWith("GOAL")) {
@@ -56,7 +63,14 @@ public class Player implements Runnable {
                 game.setGoalPlayers(Integer.parseInt(goal[1]));
 
             } else if (command.startsWith("START")) {
+                game.makeBoard();
+                game.assignColors();
                 game.sendToAll("START " + game.currentPlayers());
+
+            } else if (command.startsWith("MOVE")) {
+                if (game.moveValidation(command)) {
+                    game.sendToAll(command);
+                } else sendMessage("INVALID_MOVE");
 
             }
         }
@@ -67,6 +81,3 @@ public class Player implements Runnable {
     }
 
 }
-
-
-

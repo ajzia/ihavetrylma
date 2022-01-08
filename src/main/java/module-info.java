@@ -6,4 +6,6 @@ module com.example.ihavetrylma {
 
     opens com.example.ihavetrylma to javafx.fxml;
     exports com.example.ihavetrylma;
+    exports Server;
+    opens Server to javafx.fxml;
 }

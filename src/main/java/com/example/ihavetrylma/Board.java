@@ -120,14 +120,8 @@ public class Board {
     }
 
     public void makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
-        int oldOwner = arrayOfTiles[oldColumn][oldRow].getOwner();
-        int newOwner = arrayOfTiles[newColumn][newRow].getOwner();
-
-        GameRules gameRules = new GameRules(oldColumn, oldRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
-        if (gameRules.checkIfValid()) {
-            addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
-            removePiece(oldColumn, oldRow);
-        }
+        addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
+        removePiece(oldColumn, oldRow);
     }
 
     private void setFirstPlayer() {
