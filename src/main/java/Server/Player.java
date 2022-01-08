@@ -12,11 +12,25 @@ public class Player implements Runnable {
     private PrintWriter out;
     private Game game;
 
+    private int color;
+
     public Player(Socket socket, Game game) {
         this.socket = socket;
         this.game = game;
-        game.players.add(this);
+
+        if (game.currentPlayers() <= game.getGoalPlayers()) {
+            game.players.add(this);
+        }
+
         System.out.println(game.currentPlayers());
+    }
+
+    protected void setColor(int color) {
+        this.color = color;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     @Override
@@ -50,6 +64,7 @@ public class Player implements Runnable {
 
             } else if (command.startsWith("START")) {
                 game.makeBoard();
+                game.assignColors();
                 game.sendToAll("START " + game.currentPlayers());
 
             } else if (command.startsWith("MOVE")) {

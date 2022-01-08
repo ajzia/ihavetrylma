@@ -10,7 +10,7 @@ public class Server {
             System.out.println("Server is running...");
             var pool = Executors.newFixedThreadPool(10);
 
-            Game game = new Game(); // list of players, adding board to every one of them?
+            Game game = new Game();
             pool.execute(new Player(listener.accept(), game));
 
             while (true) {
