@@ -13,7 +13,7 @@ public class Lobby extends JFrame {
     Lobby(int active) {
         if (active == 1) {
             this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            this.setResizable(true);
+            this.setResizable(false);
             this.setLayout(null);
             this.setSize(300, 350);
             this.setLocationRelativeTo(null);

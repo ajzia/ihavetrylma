@@ -6,7 +6,7 @@ public class WaitingRoom extends JFrame {
 
     WaitingRoom() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setResizable(true);
+        this.setResizable(false);
         this.setLayout(null);
         this.setSize(370, 100);
         this.setLocationRelativeTo(null);
