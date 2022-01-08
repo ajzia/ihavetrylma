@@ -8,25 +8,34 @@ public class Tile extends Circle {
     Board board;
     int column, row;
     int owner = -1;
+    int sideLength;
+    int radius = 15;
 
     public boolean hasOwner() {
         return owner != -1;
     }
 
-    public Tile(int column, int row, Board board){
+    public Tile(int column, int row, Board board, int sideLength) {
         this.column = column;
         this.row = row;
         this.board = board;
+        this.sideLength = sideLength;
         setFill(getColor());
-        setRadius(15);
+        if (sideLength == 5) {
+            setRadius(radius);
+        } else if (sideLength < 5) {
+            setRadius(radius + 5);
+        } else {
+            setRadius(radius - 5);
+        }
         setStroke(Color.GRAY);
         setStrokeWidth(3);
 
         setOnMousePressed(e -> {
-            if(board.movingRow == -1 && board.movingColumn == -1){
+            if (board.movingRow == -1 && board.movingColumn == -1) {
                 board.movingRow = this.row;
                 board.movingColumn = this.column;
-            } else{
+            } else {
                 board.movePiece(board.movingColumn, board.movingRow, this.column, this.row);
                 board.movingColumn = -1;
                 board.movingRow = -1;
@@ -34,7 +43,7 @@ public class Tile extends Circle {
         });
     }
 
-    public void setOwner(int owner){
+    public void setOwner(int owner) {
         this.owner = owner;
         setFill(getColor());
     }
@@ -43,20 +52,15 @@ public class Tile extends Circle {
         return owner;
     }
 
-    public Color getColor(){
-        if(owner == 0 ){
-            return Color.web("#FCC6F6");
-        }else if(owner == 1){
-            return Color.web("#BC64FF");
-        }else if(owner == 2){
-            return Color.web("#3E40EC");
-        }else if(owner == 3){
-            return Color.web("#75D23D");
-        }else if(owner == 4){
-            return Color.web("#BD3335");
-        }else if(owner == 5){
-            return Color.web("#FE9F04");
-        }
-        return Color.web("#F3F3F3");
+    public Color getColor() {
+        return switch (owner){
+            case 0 -> Color.web("#FCC6F6");
+            case 1 -> Color.web("#C55FFC");
+            case 2 -> Color.web("#68BBE3");
+            case 3 -> Color.web("#94C973");
+            case 4 -> Color.web("#E7625F");
+            case 5 -> Color.web("#FDB750");
+            default -> Color.web("#F3F3F3");
+        };
     }
 }
