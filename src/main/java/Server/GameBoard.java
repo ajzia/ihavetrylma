@@ -2,7 +2,16 @@ package Server;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+
 public class GameBoard {
+
+    protected ArrayList<GameTile> firstPlayer = new ArrayList<>();
+    protected ArrayList<GameTile> secondPlayer = new ArrayList<>();
+    protected ArrayList<GameTile> thirdPlayer = new ArrayList<>();
+    protected ArrayList<GameTile> fourthPlayer = new ArrayList<>();
+    protected ArrayList<GameTile> fifthPlayer = new ArrayList<>();
+    protected ArrayList<GameTile> sixthPlayer = new ArrayList<>();
 
     private final int numberOfPlayers;
     private final int sideLength;
@@ -13,7 +22,7 @@ public class GameBoard {
     protected int jumpRow = 0;
     protected boolean previousJump = false;
 
-    GameBoard(int width, int height, GameTile[][] arrayOfTiles, int numberOfPlayers, int sideLength) {
+    protected GameBoard(int width, int height, GameTile[][] arrayOfTiles, int numberOfPlayers, int sideLength) {
         this.height = height;
         this.width = width;
         this.arrayOfTiles = arrayOfTiles;
@@ -26,7 +35,7 @@ public class GameBoard {
 
     // Width of each row of the triangle
     private static final int[] WIDTHS = {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+            1, 2, 3, 4, 5, 6, 7//, 8, 9, 10, 11, 12, 13
     };
 
     private void createTiles() {
@@ -154,6 +163,44 @@ public class GameBoard {
         jumpRow = 0;
     }
 
+    protected boolean isThisTheEnd(int side, int color) {
+        switch (color) {
+            case 0 -> {
+                System.out.println(0);
+                WinningConditions win = new WinningConditions(side, firstPlayer);
+                return win.ifWon();
+            }
+            case 1 -> {
+                System.out.println(1);
+                WinningConditions win = new WinningConditions(side, secondPlayer);
+                return win.ifWon();
+            }
+            case 2 -> {
+                System.out.println(2);
+                WinningConditions win = new WinningConditions(side, thirdPlayer);
+                return win.ifWon();
+            }
+            case 3 -> {
+                System.out.println(3);
+                WinningConditions win = new WinningConditions(side, fourthPlayer);
+                return win.ifWon();
+            }
+            case 4 -> {
+                System.out.println(4);
+                WinningConditions win = new WinningConditions(side, fifthPlayer);
+                return win.ifWon();
+            }
+            case 5 -> {
+                System.out.println(5);
+                WinningConditions win = new WinningConditions(side, sixthPlayer);
+                return win.ifWon();
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
     private void setFirstPlayer() {
         int temp = width / 2;
         int temp2 = width / 2;
@@ -162,6 +209,7 @@ public class GameBoard {
                 addPiece(column, row, 0);
                 arrayOfTiles[column][row].setStroke(Color.web("#FA26A0"));
                 arrayOfTiles[column][row].setBase(3);
+                fourthPlayer.add(arrayOfTiles[column][row]);  // czwarta baza
             }
             temp++;
             temp2--;
@@ -176,22 +224,27 @@ public class GameBoard {
                 addPiece(column, row, 1);
                 arrayOfTiles[column][row].setStroke(Color.web("#7954A1"));
 
-                if(numberOfPlayers == 3) {                      // ustawia dla siebie
-
-                    int x = (sideLength - 1) * 2;
-                    int y = 0;
-                    for (int r = height - sideLength; r > (sideLength - 1) * 2; r--) {
-                        for (int c = y; c < x; c = c + 2) {
-                            arrayOfTiles[c][r].setBase(1);
-                        }
-                        x--;
-                        y++;
-                    }
-
-                } else arrayOfTiles[column][row].setBase(4);    // ustawia dla 4
+                if (numberOfPlayers != 3) {
+                    arrayOfTiles[column][row].setBase(4);    // ustawia dla 4
+                    fifthPlayer.add(arrayOfTiles[column][row]);
+                }
             }
             temp++;
             temp2--;
+        }
+
+        if (numberOfPlayers == 3) {                      // ustawia dla siebie
+            int x = (sideLength - 1) * 2;
+            int y = 0;
+            for (int r = height - sideLength; r > (sideLength - 1) * 2; r--) {
+                for (int c = y; c < x; c = c + 2) {
+                    arrayOfTiles[c][r].setBase(1);
+                    secondPlayer.add(arrayOfTiles[c][r]);
+                }
+                x--;
+                y++;
+            }
+
         }
     }
 
@@ -203,6 +256,7 @@ public class GameBoard {
                 addPiece(column, row, 2);
                 arrayOfTiles[column][row].setStroke(Color.web("#0E86D4"));
                 arrayOfTiles[column][row].setBase(5);
+                sixthPlayer.add(arrayOfTiles[column][row]);
             }
             temp++;
             temp2--;
@@ -216,18 +270,22 @@ public class GameBoard {
             for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 3);
                 arrayOfTiles[column][row].setStroke(Color.web("#76B947"));
-                if(numberOfPlayers != 3) arrayOfTiles[column][row].setBase(0);
+                if (numberOfPlayers != 3) {
+                    arrayOfTiles[column][row].setBase(0);
+                    firstPlayer.add(arrayOfTiles[column][row]);
+                }
             }
             temp++;
             temp2--;
         }
 
-        if(numberOfPlayers == 3) {
+        if (numberOfPlayers == 3) {
             int x = width / 2;
             int y = width / 2;
             for (int r = 0; r < sideLength - 1; r++) {
                 for (int c = y; c <= x; c = c + 2) {
                     arrayOfTiles[c][r].setBase(3);
+                    fourthPlayer.add(arrayOfTiles[c][r]);
                 }
                 x++;
                 y--;
@@ -244,6 +302,7 @@ public class GameBoard {
                 addPiece(column, row, 4);
                 arrayOfTiles[column][row].setStroke(Color.web("#C85250"));
                 arrayOfTiles[column][row].setBase(1);
+                secondPlayer.add(arrayOfTiles[column][row]);
             }
             temp--;
             temp2++;
@@ -257,18 +316,22 @@ public class GameBoard {
             for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 5);
                 arrayOfTiles[column][row].setStroke(Color.web("#FD7F20"));
-                if (numberOfPlayers != 3) arrayOfTiles[column][row].setBase(2);
+                if (numberOfPlayers != 3) {
+                    arrayOfTiles[column][row].setBase(2);
+                    thirdPlayer.add(arrayOfTiles[column][row]);
+                }
             }
             temp--;
             temp2++;
         }
 
-        if(numberOfPlayers == 3){
+        if (numberOfPlayers == 3) {
             int x = width - ((sideLength - 1) * 2 + 1);
             int y = width - 1;
             for (int r = height - sideLength; r > (sideLength - 1) * 2; r--) {
                 for (int c = y; c > x; c = c - 2) {
                     arrayOfTiles[c][r].setBase(5);
+                    sixthPlayer.add(arrayOfTiles[c][r]);
                 }
                 x++;
                 y--;
