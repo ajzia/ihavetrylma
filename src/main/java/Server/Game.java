@@ -6,6 +6,8 @@ public class Game {
 
     protected int goalPlayers = 0;
 
+    protected int current;
+
     private static final int side = 5;
     private static final int height = 17;
     private static final int width = 25;
@@ -36,7 +38,6 @@ public class Game {
             case 2 -> {
                 for (int i = 0; i < size; i++) {
                     getPlayer(i).setColor(i * 3);
-                    System.out.println("numer " + i + " kolor " + (i * 3));
                 }
             }
             case 3 -> {
@@ -56,6 +57,27 @@ public class Game {
                 }
             }
         }
+    }
+
+    protected void randomPlayer() {
+        this.current = (int) Math.floor(Math.random() * (goalPlayers));
+        getPlayer(current).setTurn(true);
+    }
+
+    protected void nextPlayer() {
+        getPlayer(current).setTurn(false);
+        getPlayer(current).sendMessage("END_OF_TURN");
+
+        int active = 0;
+        for (Player p : players) {
+            if(!p.getWon()) {
+                active++;
+            }
+        }
+
+        current = (current + 1) % active;
+        getPlayer(current).setTurn(true);
+        getPlayer(current).sendMessage("YOUR_TURN");
     }
 
     protected void makeBoard() {

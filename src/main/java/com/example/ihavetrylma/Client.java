@@ -5,9 +5,13 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
+
     private Socket socket;
     private Scanner in;
     private static PrintWriter out;
+
+    protected static boolean turn;
+    protected static int colour;
 
     BoardGUI boardGUI;
     private Lobby lobby;
@@ -68,10 +72,23 @@ public class Client {
                     Thread thed = new Thread(() -> boardGUI = BoardGUI.getInstance());
                     thed.start();
 
+                    out.println("SET_TURN");
+
                 } else if (response.startsWith("INVALID_MOVE")) {
                     System.out.println("Invalid move, try again!");
 
+                } else if (response.startsWith("YOUR_TURN")) {
+                    System.out.println("Your turn!");
+                    turn = true;
+
+                } else if (response.startsWith("END_OF_TURN")) {
+                    System.out.println("You turn has ended!");
+                    turn = false;
+                } else if (response.startsWith("COLOR")) {
+                    String[] color = response.split(" ");
+                    colour = Integer.parseInt(color[1]);
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();

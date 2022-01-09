@@ -11,10 +11,6 @@ public class Tile extends Circle {
     int sideLength;
     int radius = 15;
 
-    public boolean hasOwner() {
-        return owner != -1;
-    }
-
     public Tile(int column, int row, Board board, int sideLength) {
         this.column = column;
         this.row = row;
@@ -34,16 +30,18 @@ public class Tile extends Circle {
         setStrokeWidth(3);
 
         setOnMousePressed(e -> {
-            if (board.movingRow == -1 && board.movingColumn == -1) {
-                if(hasOwner()) {
-                    board.movingRow = this.row;
-                    board.movingColumn = this.column;
+            if(Client.turn) {
+                if (board.movingRow == -1 && board.movingColumn == -1) {
+                    if (Client.colour == getOwner()) {
+                        board.movingRow = this.row;
+                        board.movingColumn = this.column;
+                    } else System.out.println("You can't move other player's pieces!");
+                } else {
+                    board.movePiece(board.movingColumn, board.movingRow, this.column, this.row);
+                    board.movingColumn = -1;
+                    board.movingRow = -1;
                 }
-            } else {
-                board.movePiece(board.movingColumn, board.movingRow, this.column, this.row);
-                board.movingColumn = -1;
-                board.movingRow = -1;
-            }
+            } else System.out.println("Wait for your turn!");
         });
     }
 
@@ -57,7 +55,7 @@ public class Tile extends Circle {
     }
 
     public Color getColor() {
-        return switch (owner){
+        return switch (owner) {
             case 0 -> Color.web("#FCC6F6");
             case 1 -> Color.web("#C55FFC");
             case 2 -> Color.web("#68BBE3");

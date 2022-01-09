@@ -7,14 +7,17 @@ import java.util.Scanner;
 
 public class Player implements Runnable {
 
-    private Socket socket;
+    private final Socket socket;
     private Scanner in;
     private PrintWriter out;
-    private Game game;
+    private final Game game;
 
+    private final int id;
     private int color;
+    private boolean turn = false;
+    private boolean won = false;
 
-    public Player(Socket socket, Game game) {
+    protected Player(Socket socket, Game game) {
         this.socket = socket;
         this.game = game;
 
@@ -22,6 +25,7 @@ public class Player implements Runnable {
             game.players.add(this);
         }
 
+        this.id = game.currentPlayers();
         System.out.println(game.currentPlayers());
     }
 
@@ -29,8 +33,20 @@ public class Player implements Runnable {
         this.color = color;
     }
 
-    public int getColor() {
+    private int getColor() {
         return color;
+    }
+
+    protected void setWon() {
+        won = true;
+    }
+
+    protected boolean getWon() {
+        return won;
+    }
+
+    protected void setTurn(boolean turn) {
+        this.turn = turn;
     }
 
     @Override
@@ -65,19 +81,31 @@ public class Player implements Runnable {
             } else if (command.startsWith("START")) {
                 game.makeBoard();
                 game.assignColors();
+                game.sendToAll("COLOR");
                 game.sendToAll("START " + game.currentPlayers());
+
+                if(id == game.goalPlayers) {
+                    game.randomPlayer();
+                }
 
             } else if (command.startsWith("MOVE")) {
                 if (game.moveValidation(command)) {
+                    game.nextPlayer();
                     game.sendToAll(command);
                 } else sendMessage("INVALID_MOVE");
-
+            } else if (command.startsWith("SET_TURN")) {
+                if(turn) {
+                    sendMessage("YOUR_TURN");
+                }
             }
         }
     }
 
-    public void sendMessage(String message) {
-        out.println(message);
+    protected void sendMessage(String message) {
+        if(message.startsWith("COLOR")) {
+            System.out.println("kolor gracza" + " " + getColor() + " jego id to " + id);
+            out.println("COLOR" + " " + getColor() + " " + game.getGoalPlayers());
+        } else out.println(message);
     }
 
 }
