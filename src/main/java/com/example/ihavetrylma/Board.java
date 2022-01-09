@@ -33,7 +33,6 @@ public class Board {
 
     public void createTiles() {
         int temp = WIDTHS[WIDTHS.length-2];
-        System.out.println(temp);
         Tile tile;
 
         //create triangle of tiles

@@ -20,6 +20,7 @@ public class Tile extends Circle {
         this.row = row;
         this.board = board;
         this.sideLength = sideLength;
+
         setFill(getColor());
         if (sideLength == 5) {
             setRadius(radius);
@@ -28,13 +29,16 @@ public class Tile extends Circle {
         } else {
             setRadius(radius - 5);
         }
+
         setStroke(Color.GRAY);
         setStrokeWidth(3);
 
         setOnMousePressed(e -> {
             if (board.movingRow == -1 && board.movingColumn == -1) {
-                board.movingRow = this.row;
-                board.movingColumn = this.column;
+                if(hasOwner()) {
+                    board.movingRow = this.row;
+                    board.movingColumn = this.column;
+                }
             } else {
                 board.movePiece(board.movingColumn, board.movingRow, this.column, this.row);
                 board.movingColumn = -1;
