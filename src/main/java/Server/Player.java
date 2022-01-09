@@ -90,9 +90,13 @@ public class Player implements Runnable {
                 game.sendToAll("START " + game.currentPlayers());
 
             } else if (command.startsWith("MOVE")) {
-                if (game.moveValidation(command)) {
-                    game.nextPlayer();
+                int move = game.moveValidation(command);
+                if (move > 0) {
+                    if (move == 2) {
+                        game.nextPlayer();
+                    }
                     game.sendToAll(command);
+
                 } else sendMessage("INVALID_MOVE");
 
             } else if (command.startsWith("SET_TURN")) {
@@ -100,9 +104,7 @@ public class Player implements Runnable {
                     sendMessage("YOUR_TURN");
                 }
             } else if (command.startsWith("SKIP")) {
-                if (turn) {
-                    game.nextPlayer();
-                }
+                game.nextPlayer();
             }
         }
     }
