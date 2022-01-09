@@ -13,7 +13,7 @@ public class Client {
     protected static boolean turn = false;
     protected static int colour = -1;
 
-    BoardGUI boardGUI;
+    protected BoardGUI boardGUI;
     private Lobby lobby;
 
     public static void main(String[] args) throws Exception {
@@ -25,7 +25,7 @@ public class Client {
         client.play();
     }
 
-    public Client(String serverAddress) throws Exception {
+    private Client(String serverAddress) throws Exception {
         socket = new Socket(serverAddress, 15375);
 
         in = new Scanner(socket.getInputStream());
@@ -34,7 +34,7 @@ public class Client {
         makeAction("PLAYER");
     }
 
-    public void play() throws Exception {
+    private void play() throws Exception {
         try {
             while (in.hasNextLine()) {
                 String response = in.nextLine();
@@ -90,6 +90,8 @@ public class Client {
                 } else if (response.startsWith("TEXT")) {
                     BoardGUI.getInstance().getBoard().changeTextVisibility();
 
+                } else if (response.startsWith("BUTTON")) {
+                    BoardGUI.getInstance().getBoard().changeButtonVisibility();
                 }
             }
         } catch (Exception e) {

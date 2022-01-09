@@ -99,6 +99,10 @@ public class Player implements Runnable {
                 if (turn) {
                     sendMessage("YOUR_TURN");
                 }
+            } else if (command.startsWith("SKIP")) {
+                if (turn) {
+                    game.nextPlayer();
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.ihavetrylma;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -9,16 +10,17 @@ import static com.example.ihavetrylma.Client.makeAction;
 
 public class Board {
 
-    int numberOfPlayers;
-    int sideLength;
-    int height, width;
-    Tile[][] arrayOfTiles;
+    private final int numberOfPlayers;
+    private final int sideLength;
+    private final int height, width;
+    private final Tile[][] arrayOfTiles;
 
-    GridPane gameBoard;
-    Label yourTurn;
+    private final GridPane gameBoard;
+    private Button skip;
+    private Label yourTurn;
 
-    public int movingRow = -1;
-    public int movingColumn = -1;
+    protected int movingRow = -1;
+    protected int movingColumn = -1;
 
     Board(int height, int width, Tile[][] arrayOfTiles, int numberOfPlayers, int sideLength, GridPane gameBoard) {
         this.height = height;
@@ -34,27 +36,34 @@ public class Board {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
     };
 
-    public void createSkipButton(){
-        SkipButton skipButton = new SkipButton();
-        gameBoard.add(skipButton, width - 2 - ((sideLength-1)+(sideLength-3))/2, height - sideLength/2, 3, 1);
+    protected void createSkipButton() {
+        skip = new Button("Skip");
+        skip.setVisible(Client.turn);
+        skip.setOnMouseClicked(e -> makeAction("SKIP"));
+
+        gameBoard.add(skip, width - 2 - ((sideLength - 1) + (sideLength - 3)) / 2, height - sideLength / 2, 3, 1);
     }
 
-    public void createYourTurnText(){
+    protected void changeButtonVisibility() {
+        skip.setVisible(Client.turn);
+    }
+
+    protected void createYourTurnText() {
         Pane pane = new Pane();
         yourTurn = new Label("Your turn!");
         pane.getChildren().add(yourTurn);
 
-        if(Client.turn) {
+        if (Client.turn) {
             yourTurn.setTextFill(Colour.setTileColor(Client.colour));
             yourTurn.setVisible(true);
         } else yourTurn.setVisible(false);
 
 
-        gameBoard.add(yourTurn, (((sideLength-1)+(sideLength-3))/2), sideLength/2 - 1, 3, 1);
+        gameBoard.add(yourTurn, (((sideLength - 1) + (sideLength - 3)) / 2), sideLength / 2 - 1, 3, 1);
     }
 
-    public void changeTextVisibility() {
-        if(Client.turn) {
+    protected void changeTextVisibility() {
+        if (Client.turn) {
             yourTurn.setVisible(true);
             yourTurn.setTextFill(Colour.setTileColor(Client.colour));
         } else {
@@ -62,9 +71,8 @@ public class Board {
         }
     }
 
-
-    public void createTiles() {
-        int temp = WIDTHS[WIDTHS.length-2];
+    protected void createTiles() {
+        int temp = WIDTHS[WIDTHS.length - 2];
         Tile tile;
 
         //create triangle of tiles
@@ -83,7 +91,7 @@ public class Board {
 
         //create inverted triangle of tiles
         int temp2 = 0;
-        for (int i = height - 1; i > height - 1 - WIDTHS[WIDTHS.length-1]; i--) {
+        for (int i = height - 1; i > height - 1 - WIDTHS[WIDTHS.length - 1]; i--) {
             temp = temp - temp2;
             for (int j = 0; j < WIDTHS[temp2]; j++) {
                 //check if tiles already exists
@@ -101,7 +109,7 @@ public class Board {
         }
     }
 
-    public void makePieces() {
+    protected void makePieces() {
         switch (numberOfPlayers) {
             case 2 -> setForTwo();
             case 3 -> setForThree();
@@ -138,28 +146,28 @@ public class Board {
         setSixthPlayer();
     }
 
-    public void addPiece(int column, int row, int owner) {
+    private void addPiece(int column, int row, int owner) {
         arrayOfTiles[column][row].setOwner(owner);
     }
 
-    public void removePiece(int column, int row) {
+    private void removePiece(int column, int row) {
         arrayOfTiles[column][row].setOwner(-1);
     }
 
-    public void movePiece(int oldColumn, int oldRow, int newColumn, int newRow) {
+    protected void movePiece(int oldColumn, int oldRow, int newColumn, int newRow) {
         makeAction("MOVE " + oldColumn + " " + oldRow + " " + newColumn + " " + newRow);    // Move x1 y1 x2 y2
     }
 
-    public void makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
+    protected void makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
         addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
         removePiece(oldColumn, oldRow);
     }
 
     private void setFirstPlayer() {
-        int temp = width/2;
-        int temp2 = width/2;
-        for(int row = 0; row < sideLength - 1 ; row++){
-            for(int column = temp2; column <= temp; column = column + 2){
+        int temp = width / 2;
+        int temp2 = width / 2;
+        for (int row = 0; row < sideLength - 1; row++) {
+            for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 0);
                 arrayOfTiles[column][row].setStroke(Color.web("#FA26A0"));
             }
@@ -171,8 +179,8 @@ public class Board {
     private void setSecondPlayer() {
         int temp = width - ((sideLength - 1) * 2 + 1);
         int temp2 = width - 1;
-        for(int row = sideLength - 1; row < (sideLength - 1) * 2; row++){
-            for(int column = temp2; column > temp; column = column - 2){
+        for (int row = sideLength - 1; row < (sideLength - 1) * 2; row++) {
+            for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 1);
                 arrayOfTiles[column][row].setStroke(Color.web("#7954A1"));
             }
@@ -184,8 +192,8 @@ public class Board {
     private void setThirdPlayer() {
         int temp = width - ((sideLength - 1) * 2 + 1);
         int temp2 = width - 1;
-        for(int row = height - sideLength; row > (sideLength - 1) * 2; row--){
-            for(int column = temp2; column > temp; column = column - 2){
+        for (int row = height - sideLength; row > (sideLength - 1) * 2; row--) {
+            for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 2);
                 arrayOfTiles[column][row].setStroke(Color.web("#0E86D4"));
             }
@@ -195,10 +203,10 @@ public class Board {
     }
 
     private void setFourthPlayer() {
-        int temp = width/2;
-        int temp2 = width/2;
-        for(int row = height - 1; row > height - 1 - (sideLength - 1) ; row--){
-            for(int column = temp2; column <= temp; column = column + 2){
+        int temp = width / 2;
+        int temp2 = width / 2;
+        for (int row = height - 1; row > height - 1 - (sideLength - 1); row--) {
+            for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 3);
                 arrayOfTiles[column][row].setStroke(Color.web("#76B947"));
             }
@@ -210,8 +218,8 @@ public class Board {
     private void setFifthPlayer() {
         int temp = (sideLength - 1) * 2;
         int temp2 = 0;
-        for(int row = height - sideLength; row > (sideLength - 1) * 2; row--){
-            for(int column = temp2; column < temp; column = column + 2){
+        for (int row = height - sideLength; row > (sideLength - 1) * 2; row--) {
+            for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 4);
                 arrayOfTiles[column][row].setStroke(Color.web("#C85250"));
             }
@@ -223,8 +231,8 @@ public class Board {
     private void setSixthPlayer() {
         int temp = (sideLength - 1) * 2;
         int temp2 = 0;
-        for(int row = sideLength - 1; row < (sideLength - 1) * 2; row++){
-            for(int column = temp2; column < temp; column = column + 2){
+        for (int row = sideLength - 1; row < (sideLength - 1) * 2; row++) {
+            for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 5);
                 arrayOfTiles[column][row].setStroke(Color.web("#FD7F20"));
             }
@@ -232,4 +240,5 @@ public class Board {
             temp2++;
         }
     }
+
 }

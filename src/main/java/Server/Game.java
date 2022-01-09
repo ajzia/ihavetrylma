@@ -68,6 +68,7 @@ public class Game {
         getPlayer(current).setTurn(false);
         getPlayer(current).sendMessage("END_OF_TURN");
         getPlayer(current).sendMessage("TEXT");
+        getPlayer(current).sendMessage("BUTTON");
 
         int active = 0;
         for (Player p : players) {
@@ -80,6 +81,7 @@ public class Game {
         getPlayer(current).setTurn(true);
         getPlayer(current).sendMessage("YOUR_TURN");
         getPlayer(current).sendMessage("TEXT");
+        getPlayer(current).sendMessage("BUTTON");
     }
 
     protected void makeBoard() {
