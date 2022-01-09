@@ -136,8 +136,7 @@ public class GameBoard {
                     if (jumpColumn != oldColumn && jumpRow != oldRow) {
                         return 0;
                     }
-                    jumpColumn = 0;
-                    jumpRow = 0;
+                    return 0;
                 }
             }
 
