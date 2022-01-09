@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Client {
 
-    private Socket socket;
-    private Scanner in;
+    protected static Socket socket;
+    private final Scanner in;
     private static PrintWriter out;
 
     protected static boolean turn = false;
@@ -92,6 +92,9 @@ public class Client {
 
                 } else if (response.startsWith("BUTTON")) {
                     BoardGUI.getInstance().getBoard().changeButtonVisibility();
+
+                } else if (response.startsWith("VICTORY!")) {
+                    System.out.println("FINALLY! A WORTHY OPPONENT!");
                 }
             }
         } catch (Exception e) {

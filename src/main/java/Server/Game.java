@@ -8,7 +8,7 @@ public class Game {
 
     protected int current;
 
-    private static final int side = 5;
+    private static final int side = 3;
     private static final int height = side + 3 * (side - 1);
     private static final int width = 2 * (side + 2 * (side - 1)) - 1;
 
@@ -71,6 +71,7 @@ public class Game {
         getPlayer(current).sendMessage("BUTTON");
 
         int active = 0;
+
         for (Player p : players) {
             if (!p.getWon()) {
                 active++;
@@ -78,6 +79,7 @@ public class Game {
         }
 
         current = (current + 1) % active;
+
         gameBoard.resetJump();
         getPlayer(current).setTurn(true);
         getPlayer(current).sendMessage("YOUR_TURN");
@@ -98,6 +100,10 @@ public class Game {
         int y2 = Integer.parseInt(move[4]);
 
         return gameBoard.makeMove(x1, y1, x2, y2);
+    }
+
+    protected boolean playerVictory(int color) {
+        return gameBoard.isThisTheEnd(side, color);
     }
 
     protected void sendToAll(String command) {

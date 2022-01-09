@@ -167,32 +167,32 @@ public class GameBoard {
         switch (color) {
             case 0 -> {
                 System.out.println(0);
-                WinningConditions win = new WinningConditions(side, firstPlayer);
+                WinningCondition win = new WinningCondition(side, firstPlayer);
                 return win.ifWon();
             }
             case 1 -> {
                 System.out.println(1);
-                WinningConditions win = new WinningConditions(side, secondPlayer);
+                WinningCondition win = new WinningCondition(side, secondPlayer);
                 return win.ifWon();
             }
             case 2 -> {
                 System.out.println(2);
-                WinningConditions win = new WinningConditions(side, thirdPlayer);
+                WinningCondition win = new WinningCondition(side, thirdPlayer);
                 return win.ifWon();
             }
             case 3 -> {
                 System.out.println(3);
-                WinningConditions win = new WinningConditions(side, fourthPlayer);
+                WinningCondition win = new WinningCondition(side, fourthPlayer);
                 return win.ifWon();
             }
             case 4 -> {
                 System.out.println(4);
-                WinningConditions win = new WinningConditions(side, fifthPlayer);
+                WinningCondition win = new WinningCondition(side, fifthPlayer);
                 return win.ifWon();
             }
             case 5 -> {
                 System.out.println(5);
-                WinningConditions win = new WinningConditions(side, sixthPlayer);
+                WinningCondition win = new WinningCondition(side, sixthPlayer);
                 return win.ifWon();
             }
             default -> {

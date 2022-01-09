@@ -25,7 +25,7 @@ public class Player implements Runnable {
             game.players.add(this);
         }
 
-        this.id = game.currentPlayers();
+        this.id = game.currentPlayers() - 1;
         System.out.println(game.currentPlayers());
     }
 
@@ -43,6 +43,10 @@ public class Player implements Runnable {
 
     protected boolean getWon() {
         return won;
+    }
+
+    protected int getId() {
+        return id;
     }
 
     protected void setTurn(boolean turn) {
@@ -83,7 +87,7 @@ public class Player implements Runnable {
                 game.assignColors();
                 game.sendToAll("COLOR");
 
-                if (id == game.goalPlayers) {
+                if (id == game.goalPlayers - 1) {
                     game.randomPlayer();
                 }
 
@@ -92,7 +96,11 @@ public class Player implements Runnable {
             } else if (command.startsWith("MOVE")) {
                 int move = game.moveValidation(command);
                 if (move > 0) {
-                    if (move == 2) {
+                    if (game.playerVictory(color)) {
+                        setWon();
+                        out.println("VICTORY!");
+
+                    } else if (move == 2) {
                         game.nextPlayer();
                     }
                     game.sendToAll(command);

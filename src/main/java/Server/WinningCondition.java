@@ -2,19 +2,18 @@ package Server;
 
 import java.util.ArrayList;
 
-public class WinningConditions {
+public class WinningCondition {
 
     private final int side;
     private final ArrayList<GameTile> pawns;
 
-    protected WinningConditions(int side, ArrayList<GameTile> pawns) {
+    protected WinningCondition(int side, ArrayList<GameTile> pawns) {
         this.side = side;
         this.pawns = pawns;
 
         for (GameTile p: pawns) {
             System.out.println(p);
         }
-
     }
 
     protected int howManyPawns() {
