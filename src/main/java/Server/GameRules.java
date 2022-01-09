@@ -20,14 +20,19 @@ public class GameRules {
         this.arrayOfTiles = arrayOfTiles;
     }
 
-    public boolean isValid() {
+    // 0 - invalid move
+    // 1 - jump
+    // 2 - valid move
+    public int isValid() {
         if (yourPiece()) {               // is it your piece? if yes - it's not a valid move
-            return false;
+            return 0;
         } else if (!emptyTile()) {      // is this tile empty? if not - it's not a valid move
-            return false;
+            return 0;
         } else if (jump()) { // is this move to one of the neighbouring tiles? if not - it's not a valid move
-            return true;
-        } else return isGood();
+            return 1;
+        } else if (isGood()) {
+            return 2;
+        } else return 0;
     }
 
     private boolean yourPiece() {

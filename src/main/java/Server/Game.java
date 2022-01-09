@@ -78,6 +78,7 @@ public class Game {
         }
 
         current = (current + 1) % active;
+        gameBoard.resetJump();
         getPlayer(current).setTurn(true);
         getPlayer(current).sendMessage("YOUR_TURN");
         getPlayer(current).sendMessage("TEXT");
@@ -87,11 +88,9 @@ public class Game {
     protected void makeBoard() {
         GameTile[][] tile = new GameTile[width][height];
         gameBoard = new GameBoard(width, height, tile, goalPlayers, side);
-        gameBoard.createTiles();
-        gameBoard.makePieces();
     }
 
-    protected boolean moveValidation(String command) {
+    protected int moveValidation(String command) {
         String[] move = command.split(" ");
         int x1 = Integer.parseInt(move[1]);
         int y1 = Integer.parseInt(move[2]);
