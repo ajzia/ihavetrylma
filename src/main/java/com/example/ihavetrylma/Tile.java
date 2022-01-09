@@ -8,6 +8,7 @@ public class Tile extends Circle {
     Board board;
     int column, row;
     int owner = -1;
+    int base = -1;
     int sideLength;
     int radius = 15;
 
@@ -52,6 +53,14 @@ public class Tile extends Circle {
 
     public int getOwner() {
         return owner;
+    }
+
+    public void setBase(int owner){
+        this.base = owner;
+    }
+
+    public int getBase(){
+        return base;
     }
 
     public Color getColor() {

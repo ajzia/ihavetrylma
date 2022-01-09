@@ -170,6 +170,7 @@ public class Board {
             for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 0);
                 arrayOfTiles[column][row].setStroke(Color.web("#FA26A0"));
+                arrayOfTiles[column][row].setBase(3);
             }
             temp++;
             temp2--;
@@ -183,6 +184,9 @@ public class Board {
             for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 1);
                 arrayOfTiles[column][row].setStroke(Color.web("#7954A1"));
+                if(numberOfPlayers == 3) {
+                    arrayOfTiles[column][row].setBase(5);
+                }else arrayOfTiles[column][row].setBase(4);
             }
             temp++;
             temp2--;
@@ -196,6 +200,7 @@ public class Board {
             for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 2);
                 arrayOfTiles[column][row].setStroke(Color.web("#0E86D4"));
+                arrayOfTiles[column][row].setBase(5);
             }
             temp++;
             temp2--;
@@ -209,6 +214,9 @@ public class Board {
             for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 3);
                 arrayOfTiles[column][row].setStroke(Color.web("#76B947"));
+                if(numberOfPlayers == 3){
+                    arrayOfTiles[column][row].setBase(1);
+                }else arrayOfTiles[column][row].setBase(0);
             }
             temp++;
             temp2--;
@@ -222,6 +230,7 @@ public class Board {
             for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 4);
                 arrayOfTiles[column][row].setStroke(Color.web("#C85250"));
+                arrayOfTiles[column][row].setBase(1);
             }
             temp--;
             temp2++;
@@ -235,6 +244,9 @@ public class Board {
             for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 5);
                 arrayOfTiles[column][row].setStroke(Color.web("#FD7F20"));
+                if(numberOfPlayers == 3){
+                    arrayOfTiles[column][row].setBase(3);
+                }else arrayOfTiles[column][row].setBase(2);
             }
             temp--;
             temp2++;
