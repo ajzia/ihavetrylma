@@ -50,6 +50,7 @@ public class BoardGUI extends Application {
         Board board1 = new Board(height, width, arrayOfTiles, numberOfPlayers, sideLength, gameBoard);
         board1.createTiles();
         board1.makePieces();
+        board1.createSkipButton();
         setBoard(board1);
     }
 

@@ -31,6 +31,12 @@ public class Board {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
     };
 
+    public void createSkipButton(){
+        SkipButton skipButton = new SkipButton();
+        gameBoard.add(skipButton, width - 2 - ((sideLength-1)+(sideLength-3))/2, height - sideLength/2, 2, 1);
+    }
+
+
     public void createTiles() {
         int temp = WIDTHS[WIDTHS.length-2];
         Tile tile;
