@@ -44,6 +44,10 @@ public class GameRules {
     }
 
     private boolean jump() {
+        if(ifInBase()) {
+            return false;
+        }
+
         int column = newColumn - oldColumn;
         int row = newRow - oldRow;
 
@@ -65,11 +69,22 @@ public class GameRules {
     }
 
     private boolean isGood() {
+        if(ifInBase()) {
+            return false;
+        }
+
         int column = newColumn - oldColumn;
         int row = newRow - oldRow;
         if (Math.abs(column) == 2 && row == 0) {
             return true;
         } else return Math.abs(row) == 1 && Math.abs(column) == 1;
+    }
+
+    private boolean ifInBase() {
+        int oldBase = arrayOfTiles[oldColumn][oldRow].getBase();
+        int newBase = arrayOfTiles[newColumn][newRow].getBase();
+
+        return oldOwner == oldBase && oldBase != newBase;
     }
 
 }
