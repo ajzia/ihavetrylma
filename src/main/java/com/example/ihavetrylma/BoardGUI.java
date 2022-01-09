@@ -13,11 +13,11 @@ public class BoardGUI extends Application {
     static int numberOfPlayers;
     Board board;
 
-    public static final int sideLength = 6;
+    public static final int sideLength = 5;
 
     // Maximum width and height of the board
-    public static final int height = 21;
-    public static final int width = 31;
+    public static final int height = 17;
+    public static final int width = 25;
 
     public static void setNumberOfPlayers(int numberOfPlayers) {
         BoardGUI.numberOfPlayers = numberOfPlayers;

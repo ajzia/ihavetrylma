@@ -1,5 +1,8 @@
 package Server;
 
+import com.example.ihavetrylma.Tile;
+import javafx.scene.paint.Color;
+
 public class GameBoard {
 
     int numberOfPlayers;
@@ -21,33 +24,33 @@ public class GameBoard {
     };
 
     public void createTiles() {
-        int temp = WIDTHS[WIDTHS.length - 1];
+        int temp = WIDTHS[WIDTHS.length-2];
         GameTile tile;
 
         //create triangle of tiles
         for (int i = 0; i < WIDTHS[WIDTHS.length - 1]; i++) {
             temp = temp - i;
             for (int j = 0; j < WIDTHS[i]; j++) {
-                tile = new GameTile(temp, i, this);
+                tile = new GameTile(temp, i, this, sideLength);
                 arrayOfTiles[temp][i] = tile;
                 temp = temp + 2;
             }
-            temp = WIDTHS[WIDTHS.length - 1];
+            temp = WIDTHS[WIDTHS.length - 2];
         }
 
         //create inverted triangle of tiles
         int temp2 = 0;
-        for (int i = 16; i > 3; i--) {
+        for (int i = height - 1; i > height - 1 - WIDTHS[WIDTHS.length-1]; i--) {
             temp = temp - temp2;
             for (int j = 0; j < WIDTHS[temp2]; j++) {
                 //check if tiles already exists
                 if (arrayOfTiles[temp][i] == null) {
-                    tile = new GameTile(temp, i, this);
+                    tile = new GameTile(temp, i, this, sideLength);
                     arrayOfTiles[temp][i] = tile;
                 }
                 temp = temp + 2;
             }
-            temp = WIDTHS[WIDTHS.length - 1];
+            temp = WIDTHS[WIDTHS.length - 2];
             temp2++;
         }
     }
@@ -111,80 +114,80 @@ public class GameBoard {
     }
 
     private void setFirstPlayer() {
-        addPiece(13, 0, 0);
-        addPiece(12, 1, 0);
-        addPiece(14, 1, 0);
-        addPiece(11, 2, 0);
-        addPiece(13, 2, 0);
-        addPiece(15, 2, 0);
-        addPiece(10, 3, 0);
-        addPiece(12, 3, 0);
-        addPiece(14, 3, 0);
-        addPiece(16, 3, 0);
+        int temp = width/2;
+        int temp2 = width/2;
+        for(int row = 0; row < sideLength - 1 ; row++){
+            for(int column = temp2; column <= temp; column = column + 2){
+                addPiece(column, row, 0);
+                arrayOfTiles[column][row].setStroke(Color.web("#FA26A0"));
+            }
+            temp++;
+            temp2--;
+        }
     }
 
     private void setSecondPlayer() {
-        addPiece(25, 4, 1);
-        addPiece(23, 4, 1);
-        addPiece(21, 4, 1);
-        addPiece(19, 4, 1);
-        addPiece(24, 5, 1);
-        addPiece(22, 5, 1);
-        addPiece(20, 5, 1);
-        addPiece(23, 6, 1);
-        addPiece(21, 6, 1);
-        addPiece(22, 7, 1);
+        int temp = width - ((sideLength - 1) * 2 + 1);
+        int temp2 = width - 1;
+        for(int row = sideLength - 1; row < (sideLength - 1) * 2; row++){
+            for(int column = temp2; column > temp; column = column - 2){
+                addPiece(column, row, 1);
+                arrayOfTiles[column][row].setStroke(Color.web("#7954A1"));
+            }
+            temp++;
+            temp2--;
+        }
     }
 
     private void setThirdPlayer() {
-        addPiece(22, 9, 2);
-        addPiece(21, 10, 2);
-        addPiece(23, 10, 2);
-        addPiece(24, 11, 2);
-        addPiece(22, 11, 2);
-        addPiece(20, 11, 2);
-        addPiece(25, 12, 2);
-        addPiece(23, 12, 2);
-        addPiece(21, 12, 2);
-        addPiece(19, 12, 2);
+        int temp = width - ((sideLength - 1) * 2 + 1);
+        int temp2 = width - 1;
+        for(int row = height - sideLength; row > (sideLength - 1) * 2; row--){
+            for(int column = temp2; column > temp; column = column - 2){
+                addPiece(column, row, 2);
+                arrayOfTiles[column][row].setStroke(Color.web("#0E86D4"));
+            }
+            temp++;
+            temp2--;
+        }
     }
 
     private void setFourthPlayer() {
-        addPiece(13, 16, 3);
-        addPiece(12, 15, 3);
-        addPiece(14, 15, 3);
-        addPiece(11, 14, 3);
-        addPiece(13, 14, 3);
-        addPiece(15, 14, 3);
-        addPiece(10, 13, 3);
-        addPiece(12, 13, 3);
-        addPiece(14, 13, 3);
-        addPiece(16, 13, 3);
+        int temp = width/2;
+        int temp2 = width/2;
+        for(int row = height - 1; row > height - 1 - (sideLength - 1) ; row--){
+            for(int column = temp2; column <= temp; column = column + 2){
+                addPiece(column, row, 3);
+                arrayOfTiles[column][row].setStroke(Color.web("#76B947"));
+            }
+            temp++;
+            temp2--;
+        }
     }
 
     private void setFifthPlayer() {
-        addPiece(4, 9, 4);
-        addPiece(3, 10, 4);
-        addPiece(5, 10, 4);
-        addPiece(2, 11, 4);
-        addPiece(4, 11, 4);
-        addPiece(6, 11, 4);
-        addPiece(1, 12, 4);
-        addPiece(3, 12, 4);
-        addPiece(5, 12, 4);
-        addPiece(7, 12, 4);
+        int temp = (sideLength - 1) * 2;
+        int temp2 = 0;
+        for(int row = height - sideLength; row > (sideLength - 1) * 2; row--){
+            for(int column = temp2; column < temp; column = column + 2){
+                addPiece(column, row, 4);
+                arrayOfTiles[column][row].setStroke(Color.web("#C85250"));
+            }
+            temp--;
+            temp2++;
+        }
     }
 
     private void setSixthPlayer() {
-        addPiece(1, 4, 5);
-        addPiece(3, 4, 5);
-        addPiece(5, 4, 5);
-        addPiece(7, 4, 5);
-        addPiece(2, 5, 5);
-        addPiece(4, 5, 5);
-        addPiece(6, 5, 5);
-        addPiece(3, 6, 5);
-        addPiece(5, 6, 5);
-        addPiece(4, 7, 5);
+        int temp = (sideLength - 1) * 2;
+        int temp2 = 0;
+        for(int row = sideLength - 1; row < (sideLength - 1) * 2; row++){
+            for(int column = temp2; column < temp; column = column + 2){
+                addPiece(column, row, 5);
+                arrayOfTiles[column][row].setStroke(Color.web("#FD7F20"));
+            }
+            temp--;
+            temp2++;
+        }
     }
 }

@@ -8,7 +8,7 @@ public class Game {
 
     private static final int side = 5;
     private static final int height = 17;
-    private static final int width = 26;
+    private static final int width = 25;
 
     GameBoard gameBoard;
 

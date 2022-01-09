@@ -28,7 +28,7 @@ public class Board {
 
     // Width of each row of the triangle
     private static final int[] WIDTHS = {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
     };
 
     public void createTiles() {
@@ -125,7 +125,7 @@ public class Board {
     }
 
     private void setFirstPlayer() {
-         int temp = width/2;
+        int temp = width/2;
         int temp2 = width/2;
         for(int row = 0; row < sideLength - 1 ; row++){
             for(int column = temp2; column <= temp; column = column + 2){

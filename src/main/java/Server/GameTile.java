@@ -8,17 +8,27 @@ public class GameTile extends Circle {
     GameBoard board;
     int column, row;
     int owner = -1;
+    int sideLength;
+    int radius = 15;
 
     public boolean hasOwner() {
         return owner != -1;
     }
 
-    GameTile(int column, int row, GameBoard board) {
+    public GameTile(int column, int row, GameBoard board, int sideLength) {
         this.column = column;
         this.row = row;
         this.board = board;
+        this.sideLength = sideLength;
+
         setFill(getColor());
-        setRadius(15);
+        if (sideLength == 5) {
+            setRadius(radius);
+        } else if (sideLength < 5) {
+            setRadius(radius + 5);
+        } else {
+            setRadius(radius - 5);
+        }
         setStroke(Color.GRAY);
         setStrokeWidth(3);
     }
