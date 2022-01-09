@@ -30,12 +30,12 @@ public class Tile extends Circle {
         setStrokeWidth(3);
 
         setOnMousePressed(e -> {
-            if(Client.turn) {
+            if (Client.turn) {
                 if (board.movingRow == -1 && board.movingColumn == -1) {
                     if (Client.colour == getOwner()) {
                         board.movingRow = this.row;
                         board.movingColumn = this.column;
-                    } else System.out.println("You can't move other player's pieces!");
+                    } else System.out.println("It's not one of your pieces!");
                 } else {
                     board.movePiece(board.movingColumn, board.movingRow, this.column, this.row);
                     board.movingColumn = -1;
@@ -55,14 +55,6 @@ public class Tile extends Circle {
     }
 
     public Color getColor() {
-        return switch (owner) {
-            case 0 -> Color.web("#FCC6F6");
-            case 1 -> Color.web("#C55FFC");
-            case 2 -> Color.web("#68BBE3");
-            case 3 -> Color.web("#94C973");
-            case 4 -> Color.web("#E7625F");
-            case 5 -> Color.web("#FDB750");
-            default -> Color.web("#F3F3F3");
-        };
+        return Colour.setTileColor(owner);
     }
 }

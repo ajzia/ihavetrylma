@@ -67,10 +67,11 @@ public class Game {
     protected void nextPlayer() {
         getPlayer(current).setTurn(false);
         getPlayer(current).sendMessage("END_OF_TURN");
+        getPlayer(current).sendMessage("TEXT");
 
         int active = 0;
         for (Player p : players) {
-            if(!p.getWon()) {
+            if (!p.getWon()) {
                 active++;
             }
         }
@@ -78,6 +79,7 @@ public class Game {
         current = (current + 1) % active;
         getPlayer(current).setTurn(true);
         getPlayer(current).sendMessage("YOUR_TURN");
+        getPlayer(current).sendMessage("TEXT");
     }
 
     protected void makeBoard() {

@@ -15,6 +15,7 @@ public class Board {
     Tile[][] arrayOfTiles;
 
     GridPane gameBoard;
+    Label yourTurn;
 
     public int movingRow = -1;
     public int movingColumn = -1;
@@ -40,13 +41,25 @@ public class Board {
 
     public void createYourTurnText(){
         Pane pane = new Pane();
-        Label yourTurn1 = new Label("Your turn!");
-        yourTurn1.setTextFill(Color.RED);
-        pane.getChildren().add(yourTurn1);
+        yourTurn = new Label("Your turn!");
+        pane.getChildren().add(yourTurn);
 
-        yourTurn1.setVisible(true);
+        if(Client.turn) {
+            yourTurn.setTextFill(Colour.setTileColor(Client.colour));
+            yourTurn.setVisible(true);
+        } else yourTurn.setVisible(false);
 
-        gameBoard.add(yourTurn1, (((sideLength-1)+(sideLength-3))/2), sideLength/2 - 1, 3, 1);
+
+        gameBoard.add(yourTurn, (((sideLength-1)+(sideLength-3))/2), sideLength/2 - 1, 3, 1);
+    }
+
+    public void changeTextVisibility() {
+        if(Client.turn) {
+            yourTurn.setVisible(true);
+            yourTurn.setTextFill(Colour.setTileColor(Client.colour));
+        } else {
+            yourTurn.setVisible(false);
+        }
     }
 
 

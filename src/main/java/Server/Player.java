@@ -82,19 +82,21 @@ public class Player implements Runnable {
                 game.makeBoard();
                 game.assignColors();
                 game.sendToAll("COLOR");
-                game.sendToAll("START " + game.currentPlayers());
 
-                if(id == game.goalPlayers) {
+                if (id == game.goalPlayers) {
                     game.randomPlayer();
                 }
+
+                game.sendToAll("START " + game.currentPlayers());
 
             } else if (command.startsWith("MOVE")) {
                 if (game.moveValidation(command)) {
                     game.nextPlayer();
                     game.sendToAll(command);
                 } else sendMessage("INVALID_MOVE");
+
             } else if (command.startsWith("SET_TURN")) {
-                if(turn) {
+                if (turn) {
                     sendMessage("YOUR_TURN");
                 }
             }
@@ -102,8 +104,7 @@ public class Player implements Runnable {
     }
 
     protected void sendMessage(String message) {
-        if(message.startsWith("COLOR")) {
-            System.out.println("kolor gracza" + " " + getColor() + " jego id to " + id);
+        if (message.startsWith("COLOR")) {
             out.println("COLOR" + " " + getColor() + " " + game.getGoalPlayers());
         } else out.println(message);
     }

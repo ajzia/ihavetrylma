@@ -1,5 +1,6 @@
 package Server;
 
+import com.example.ihavetrylma.Colour;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -43,15 +44,7 @@ public class GameTile extends Circle {
     }
 
     public Color getColor() {
-        return switch (owner) {
-            case 0 -> Color.web("#FCC6F6");
-            case 1 -> Color.web("#BC64FF");
-            case 2 -> Color.web("#3E40EC");
-            case 3 -> Color.web("#75D23D");
-            case 4 -> Color.web("#BD3335");
-            case 5 -> Color.web("#FE9F04");
-            default -> Color.web("#F3F3F3");
-        };
+        return Colour.setTileColor(owner);
     }
 
 }
