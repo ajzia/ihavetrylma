@@ -9,8 +9,8 @@ public class Game {
     protected int current;
 
     private static final int side = 5;
-    private static final int height = 17;
-    private static final int width = 25;
+    private static final int height = side + 3 * (side - 1);
+    private static final int width = 2 * (side + 2 * (side - 1)) - 1;
 
     GameBoard gameBoard;
 

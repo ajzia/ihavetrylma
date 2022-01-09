@@ -16,8 +16,8 @@ public class BoardGUI extends Application {
     public static final int sideLength = 5;
 
     // Maximum width and height of the board
-    public static final int height = 17;
-    public static final int width = 25;
+    public static final int height = sideLength + 3 * (sideLength - 1);
+    public static final int width = 2 * (sideLength + 2 * (sideLength - 1)) - 1;
 
     public static void setNumberOfPlayers(int numberOfPlayers) {
         BoardGUI.numberOfPlayers = numberOfPlayers;
