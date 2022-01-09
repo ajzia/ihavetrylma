@@ -51,6 +51,7 @@ public class BoardGUI extends Application {
         board1.createTiles();
         board1.makePieces();
         board1.createSkipButton();
+        board1.createYourTurnText();
         setBoard(board1);
     }
 

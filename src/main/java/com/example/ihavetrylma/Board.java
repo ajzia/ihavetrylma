@@ -1,6 +1,8 @@
 package com.example.ihavetrylma;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import static com.example.ihavetrylma.Client.makeAction;
@@ -33,7 +35,18 @@ public class Board {
 
     public void createSkipButton(){
         SkipButton skipButton = new SkipButton();
-        gameBoard.add(skipButton, width - 2 - ((sideLength-1)+(sideLength-3))/2, height - sideLength/2, 2, 1);
+        gameBoard.add(skipButton, width - 2 - ((sideLength-1)+(sideLength-3))/2, height - sideLength/2, 3, 1);
+    }
+
+    public void createYourTurnText(){
+        Pane pane = new Pane();
+        Label yourTurn1 = new Label("Your turn!");
+        yourTurn1.setTextFill(Color.RED);
+        pane.getChildren().add(yourTurn1);
+
+        yourTurn1.setVisible(true);
+
+        gameBoard.add(yourTurn1, (((sideLength-1)+(sideLength-3))/2), sideLength/2 - 1, 3, 1);
     }
 
 
