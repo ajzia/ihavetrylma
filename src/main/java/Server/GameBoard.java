@@ -175,9 +175,20 @@ public class GameBoard {
             for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 1);
                 arrayOfTiles[column][row].setStroke(Color.web("#7954A1"));
-                if(numberOfPlayers == 3) {
-                    arrayOfTiles[column][row].setBase(5);
-                }else arrayOfTiles[column][row].setBase(4);
+
+                if(numberOfPlayers == 3) {                      // ustawia dla siebie
+
+                    int x = (sideLength - 1) * 2;
+                    int y = 0;
+                    for (int r = height - sideLength; r > (sideLength - 1) * 2; r--) {
+                        for (int c = y; c < x; c = c + 2) {
+                            arrayOfTiles[c][r].setBase(1);
+                        }
+                        x--;
+                        y++;
+                    }
+
+                } else arrayOfTiles[column][row].setBase(4);    // ustawia dla 4
             }
             temp++;
             temp2--;
@@ -190,7 +201,6 @@ public class GameBoard {
         for (int row = height - sideLength; row > (sideLength - 1) * 2; row--) {
             for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 2);
-                arrayOfTiles[column][row].setStroke(Color.web("#0E86D4"));
                 arrayOfTiles[column][row].setStroke(Color.web("#0E86D4"));
                 arrayOfTiles[column][row].setBase(5);
             }
@@ -206,13 +216,24 @@ public class GameBoard {
             for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 3);
                 arrayOfTiles[column][row].setStroke(Color.web("#76B947"));
-                if(numberOfPlayers == 3){
-                    arrayOfTiles[column][row].setBase(1);
-                }else arrayOfTiles[column][row].setBase(0);
+                if(numberOfPlayers != 3) arrayOfTiles[column][row].setBase(0);
             }
             temp++;
             temp2--;
         }
+
+        if(numberOfPlayers == 3) {
+            int x = width / 2;
+            int y = width / 2;
+            for (int r = 0; r < sideLength - 1; r++) {
+                for (int c = y; c <= x; c = c + 2) {
+                    arrayOfTiles[c][r].setBase(3);
+                }
+                x++;
+                y--;
+            }
+        }
+
     }
 
     private void setFifthPlayer() {
@@ -236,12 +257,22 @@ public class GameBoard {
             for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 5);
                 arrayOfTiles[column][row].setStroke(Color.web("#FD7F20"));
-                if(numberOfPlayers == 3){
-                    arrayOfTiles[column][row].setBase(3);
-                }else arrayOfTiles[column][row].setBase(2);
+                if (numberOfPlayers != 3) arrayOfTiles[column][row].setBase(2);
             }
             temp--;
             temp2++;
+        }
+
+        if(numberOfPlayers == 3){
+            int x = width - ((sideLength - 1) * 2 + 1);
+            int y = width - 1;
+            for (int r = height - sideLength; r > (sideLength - 1) * 2; r--) {
+                for (int c = y; c > x; c = c - 2) {
+                    arrayOfTiles[c][r].setBase(5);
+                }
+                x++;
+                y--;
+            }
         }
     }
 }

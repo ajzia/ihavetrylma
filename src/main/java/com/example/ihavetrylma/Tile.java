@@ -24,7 +24,7 @@ public class Tile extends Circle {
         } else if (sideLength < 5) {
             setRadius(radius + 5);
         } else {
-            setRadius(radius - 5);
+            setRadius(radius - (3 * (sideLength - 5)));
         }
 
         setStroke(Color.GRAY);
@@ -57,10 +57,6 @@ public class Tile extends Circle {
 
     public void setBase(int owner){
         this.base = owner;
-    }
-
-    public int getBase(){
-        return base;
     }
 
     public Color getColor() {
