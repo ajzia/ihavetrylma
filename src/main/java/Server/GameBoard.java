@@ -72,39 +72,31 @@ public class GameBoard {
 
     private void makePieces() {
         switch (numberOfPlayers) {
-            case 2 -> setForTwo();
-            case 3 -> setForThree();
-            case 4 -> setForFour();
-            case 6 -> setForSix();
+            case 2 -> {
+                setFirstPlayer();
+                setFourthPlayer();
+            }
+            case 3 -> {
+                setSecondPlayer();
+                setFourthPlayer();
+                setSixthPlayer();
+            }
+            case 4 -> {
+                setSecondPlayer();
+                setThirdPlayer();
+                setFifthPlayer();
+                setSixthPlayer();
+            }
+            case 6 -> {
+                setFirstPlayer();
+                setSecondPlayer();
+                setThirdPlayer();
+                setFourthPlayer();
+                setFifthPlayer();
+                setSixthPlayer();
+            }
             default -> System.out.println("Wrong number of players");
         }
-    }
-
-    private void setForTwo() {
-        setFirstPlayer();
-        setFourthPlayer();
-    }
-
-    private void setForThree() {
-        setSecondPlayer();
-        setFourthPlayer();
-        setSixthPlayer();
-    }
-
-    private void setForFour() {
-        setSecondPlayer();
-        setThirdPlayer();
-        setFifthPlayer();
-        setSixthPlayer();
-    }
-
-    private void setForSix() {
-        setFirstPlayer();
-        setSecondPlayer();
-        setThirdPlayer();
-        setFourthPlayer();
-        setFifthPlayer();
-        setSixthPlayer();
     }
 
     private void addPiece(int column, int row, int owner) {
