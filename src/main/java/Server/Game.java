@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Game {
 
-    protected int goalPlayers = 0;
+    protected int goalPlayers = 4;
 
     protected int current;
 
-    private static final int side = 5;
+    private static final int side = 4;
     private static final int height = side + 3 * (side - 1);
     private static final int width = 2 * (side + 2 * (side - 1)) - 1;
 
@@ -73,7 +73,7 @@ public class Game {
         int active = 0;
 
         for (Player p : players) {
-            if (!p.getWon()) {
+            if (p.getState() == 0) {
                 active++;
             }
         }
@@ -90,6 +90,7 @@ public class Game {
     protected void makeBoard() {
         GameTile[][] tile = new GameTile[width][height];
         gameBoard = new GameBoard(width, height, tile, goalPlayers, side);
+        gameBoard.makeBlockades();
     }
 
     protected int moveValidation(String command) {
@@ -102,8 +103,12 @@ public class Game {
         return gameBoard.makeMove(x1, y1, x2, y2);
     }
 
-    protected boolean playerVictory(int color) {
-        return gameBoard.isThisTheEnd(side, color);
+    protected int playerVictory(int color) {
+        return gameBoard.isThisTheEnd(color);
+    }
+
+    protected int playersBlocked(int owner) {
+        return gameBoard.checkBlockade(owner) ? 2 : 0;
     }
 
     protected void sendToAll(String command) {

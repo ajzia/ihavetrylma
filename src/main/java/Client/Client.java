@@ -95,6 +95,8 @@ public class Client {
 
                 } else if (response.startsWith("VICTORY!")) {
                     System.out.println("FINALLY! A WORTHY OPPONENT!");
+                } else if (response.startsWith("BLOCK")) {
+                    System.out.println("You are blocked :((");
                 }
             }
         } catch (Exception e) {

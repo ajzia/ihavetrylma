@@ -15,7 +15,7 @@ public class Player implements Runnable {
     private final int id;
     private int color;
     private boolean turn = false;
-    private boolean won = false;
+    private int state = 0;
 
     protected Player(Socket socket, Game game) {
         this.socket = socket;
@@ -37,12 +37,12 @@ public class Player implements Runnable {
         return color;
     }
 
-    protected void setWon() {
-        won = true;
+    protected void setState(int state) {
+        this.state = state;
     }
 
-    protected boolean getWon() {
-        return won;
+    protected int getState() {
+        return state;
     }
 
     protected int getId() {
@@ -95,11 +95,17 @@ public class Player implements Runnable {
 
             } else if (command.startsWith("MOVE")) {
                 int move = game.moveValidation(command);
+
                 if (move > 0) {
-                    if (game.playerVictory(color)) {
-                        setWon();
+                    int win = game.playerVictory(color);
+                    int block = game.playersBlocked(color);
+                    if (win == 1) {
+                        setState(win);
                         out.println("VICTORY!");
 
+                    } else if (block == 2) {
+                        setState(block);
+                        out.println("BLOCK");
                     } else if (move == 2) {
                         game.nextPlayer();
                     }

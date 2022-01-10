@@ -1,6 +1,7 @@
-package Server;
+package Server.GameRules;
+import Server.GameTile;
 
-public class GameRules {
+public class MoveValidation {
 
     private final int oldColumn;
     private final int oldRow;
@@ -10,7 +11,7 @@ public class GameRules {
     private final int newOwner;
     private final GameTile[][] arrayOfTiles;
 
-    public GameRules(int oldColumn, int oldRow, int newColumn, int newRow, int oldOwner, int newOwner, GameTile[][] arrayOfTiles) {
+    public MoveValidation(int oldColumn, int oldRow, int newColumn, int newRow, int oldOwner, int newOwner, GameTile[][] arrayOfTiles) {
         this.oldColumn = oldColumn;
         this.oldRow = oldRow;
         this.newColumn = newColumn;

@@ -1,5 +1,8 @@
 package Server;
 
+import Server.GameRules.Blockade;
+import Server.GameRules.MoveValidation;
+import Server.GameRules.WinningCondition;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -14,20 +17,21 @@ public class GameBoard {
     protected ArrayList<GameTile> sixthPlayer = new ArrayList<>();
 
     private final int numberOfPlayers;
-    private final int sideLength;
+    private final int side;
     private final int height, width;
     private final GameTile[][] arrayOfTiles;
 
     protected int jumpColumn = 0;
     protected int jumpRow = 0;
     protected boolean previousJump = false;
+    private Blockade blockades;
 
-    protected GameBoard(int width, int height, GameTile[][] arrayOfTiles, int numberOfPlayers, int sideLength) {
+    protected GameBoard(int width, int height, GameTile[][] arrayOfTiles, int numberOfPlayers, int side) {
         this.height = height;
         this.width = width;
         this.arrayOfTiles = arrayOfTiles;
         this.numberOfPlayers = numberOfPlayers;
-        this.sideLength = sideLength;
+        this.side = side;
 
         createTiles();
         makePieces();
@@ -35,7 +39,7 @@ public class GameBoard {
 
     // Width of each row of the triangle
     private static final int[] WIDTHS = {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10//, 11, 12, 13
     };
 
     private void createTiles() {
@@ -46,7 +50,7 @@ public class GameBoard {
         for (int i = 0; i < WIDTHS[WIDTHS.length - 1]; i++) {
             temp = temp - i;
             for (int j = 0; j < WIDTHS[i]; j++) {
-                tile = new GameTile(temp, i, this, sideLength);
+                tile = new GameTile(temp, i, this, side);
                 arrayOfTiles[temp][i] = tile;
                 temp = temp + 2;
             }
@@ -60,7 +64,7 @@ public class GameBoard {
             for (int j = 0; j < WIDTHS[temp2]; j++) {
                 //check if tiles already exists
                 if (arrayOfTiles[temp][i] == null) {
-                    tile = new GameTile(temp, i, this, sideLength);
+                    tile = new GameTile(temp, i, this, side);
                     arrayOfTiles[temp][i] = tile;
                 }
                 temp = temp + 2;
@@ -99,6 +103,14 @@ public class GameBoard {
         }
     }
 
+    private int howManyPieces() {
+        int pieces = 0;
+        for (int i = 1; i < side; i++) {
+            pieces += i;
+        }
+        return pieces;
+    }
+
     private void addPiece(int column, int row, int owner) {
         arrayOfTiles[column][row].setOwner(owner);
     }
@@ -108,19 +120,19 @@ public class GameBoard {
     }
 
     protected int makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
-        GameRules gameRules;
+        MoveValidation moveVal;
 
         int oldOwner = arrayOfTiles[oldColumn][oldRow].getOwner();
         int newOwner = arrayOfTiles[newColumn][newRow].getOwner();
 
         if (jumpColumn == 0 && jumpRow == 0) {
-            gameRules = new GameRules(oldColumn, oldRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
+            moveVal = new MoveValidation(oldColumn, oldRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
             previousJump = false;
         } else {
-            gameRules = new GameRules(jumpColumn, jumpRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
+            moveVal = new MoveValidation(jumpColumn, jumpRow, newColumn, newRow, oldOwner, newOwner, arrayOfTiles);
         }
 
-        int move = gameRules.isValid();
+        int move = moveVal.isValid();
         if (move > 0) {
             if (move == 1) {
                 if (previousJump) {
@@ -145,7 +157,7 @@ public class GameBoard {
             removePiece(oldColumn, oldRow);
 
             previousJump = move == 1;
-            return gameRules.isValid() == 1 ? 1 : 2;
+            return moveVal.isValid() == 1 ? 1 : 2;
         }
         return 0;
     }
@@ -155,37 +167,62 @@ public class GameBoard {
         jumpRow = 0;
     }
 
-    protected boolean isThisTheEnd(int side, int color) {
+    protected int isThisTheEnd(int color) {
         switch (color) {
             case 0 -> {
-                System.out.println(0);
-                WinningCondition win = new WinningCondition(side, firstPlayer);
-                return win.ifWon();
+                WinningCondition win = new WinningCondition(howManyPieces(), firstPlayer);
+                return win.ifWon() ? 1 : 0;
             }
             case 1 -> {
-                System.out.println(1);
-                WinningCondition win = new WinningCondition(side, secondPlayer);
-                return win.ifWon();
+                WinningCondition win = new WinningCondition(howManyPieces(), secondPlayer);
+                return win.ifWon() ? 1 : 0;
             }
             case 2 -> {
-                System.out.println(2);
-                WinningCondition win = new WinningCondition(side, thirdPlayer);
-                return win.ifWon();
+                WinningCondition win = new WinningCondition(howManyPieces(), thirdPlayer);
+                return win.ifWon() ? 1 : 0;
             }
             case 3 -> {
-                System.out.println(3);
-                WinningCondition win = new WinningCondition(side, fourthPlayer);
-                return win.ifWon();
+                WinningCondition win = new WinningCondition(howManyPieces(), fourthPlayer);
+                return win.ifWon() ? 1 : 0;
             }
             case 4 -> {
-                System.out.println(4);
-                WinningCondition win = new WinningCondition(side, fifthPlayer);
-                return win.ifWon();
+                WinningCondition win = new WinningCondition(howManyPieces(), fifthPlayer);
+                return win.ifWon() ? 1 : 0;
             }
             case 5 -> {
-                System.out.println(5);
-                WinningCondition win = new WinningCondition(side, sixthPlayer);
-                return win.ifWon();
+                WinningCondition win = new WinningCondition(howManyPieces(), sixthPlayer);
+                return win.ifWon() ? 1 : 0;
+            }
+            default -> {
+                return 0;
+            }
+        }
+    }
+
+    protected void makeBlockades() {
+        blockades = new Blockade(arrayOfTiles, width, height, side, howManyPieces(), numberOfPlayers);
+        blockades.setBlockades();
+    }
+
+    protected boolean checkBlockade(int owner) {
+        switch (owner) {
+            case 0 -> {
+                return blockades.isBlockade(firstPlayer, owner);
+            }
+            case 1 -> {
+                return blockades.isBlockade(secondPlayer, owner);
+            }
+            case 2 -> {
+                return blockades.isBlockade(thirdPlayer, owner);
+            }
+            case 3 -> {
+                return blockades.isBlockade(fourthPlayer, owner);
+            }
+            case 4 -> {
+                return blockades.isBlockade(fifthPlayer, owner);
+            }
+            case 5 -> {
+                return blockades.isBlockade(sixthPlayer, owner);
             }
             default -> {
                 return false;
@@ -196,7 +233,7 @@ public class GameBoard {
     private void setFirstPlayer() {
         int temp = width / 2;
         int temp2 = width / 2;
-        for (int row = 0; row < sideLength - 1; row++) {
+        for (int row = 0; row < side - 1; row++) {
             for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 0);
                 arrayOfTiles[column][row].setStroke(Color.web("#FA26A0"));
@@ -209,9 +246,9 @@ public class GameBoard {
     }
 
     private void setSecondPlayer() {
-        int temp = width - ((sideLength - 1) * 2 + 1);
+        int temp = width - ((side - 1) * 2 + 1);
         int temp2 = width - 1;
-        for (int row = sideLength - 1; row < (sideLength - 1) * 2; row++) {
+        for (int row = side - 1; row < (side - 1) * 2; row++) {
             for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 1);
                 arrayOfTiles[column][row].setStroke(Color.web("#7954A1"));
@@ -226,9 +263,9 @@ public class GameBoard {
         }
 
         if (numberOfPlayers == 3) {                      // ustawia dla siebie
-            int x = (sideLength - 1) * 2;
+            int x = (side - 1) * 2;
             int y = 0;
-            for (int r = height - sideLength; r > (sideLength - 1) * 2; r--) {
+            for (int r = height - side; r > (side - 1) * 2; r--) {
                 for (int c = y; c < x; c = c + 2) {
                     arrayOfTiles[c][r].setBase(1);
                     secondPlayer.add(arrayOfTiles[c][r]);
@@ -241,9 +278,9 @@ public class GameBoard {
     }
 
     private void setThirdPlayer() {
-        int temp = width - ((sideLength - 1) * 2 + 1);
+        int temp = width - ((side - 1) * 2 + 1);
         int temp2 = width - 1;
-        for (int row = height - sideLength; row > (sideLength - 1) * 2; row--) {
+        for (int row = height - side; row > (side - 1) * 2; row--) {
             for (int column = temp2; column > temp; column = column - 2) {
                 addPiece(column, row, 2);
                 arrayOfTiles[column][row].setStroke(Color.web("#0E86D4"));
@@ -258,7 +295,7 @@ public class GameBoard {
     private void setFourthPlayer() {
         int temp = width / 2;
         int temp2 = width / 2;
-        for (int row = height - 1; row > height - 1 - (sideLength - 1); row--) {
+        for (int row = height - 1; row > height - 1 - (side - 1); row--) {
             for (int column = temp2; column <= temp; column = column + 2) {
                 addPiece(column, row, 3);
                 arrayOfTiles[column][row].setStroke(Color.web("#76B947"));
@@ -274,7 +311,7 @@ public class GameBoard {
         if (numberOfPlayers == 3) {
             int x = width / 2;
             int y = width / 2;
-            for (int r = 0; r < sideLength - 1; r++) {
+            for (int r = 0; r < side - 1; r++) {
                 for (int c = y; c <= x; c = c + 2) {
                     arrayOfTiles[c][r].setBase(3);
                     fourthPlayer.add(arrayOfTiles[c][r]);
@@ -287,9 +324,9 @@ public class GameBoard {
     }
 
     private void setFifthPlayer() {
-        int temp = (sideLength - 1) * 2;
+        int temp = (side - 1) * 2;
         int temp2 = 0;
-        for (int row = height - sideLength; row > (sideLength - 1) * 2; row--) {
+        for (int row = height - side; row > (side - 1) * 2; row--) {
             for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 4);
                 arrayOfTiles[column][row].setStroke(Color.web("#C85250"));
@@ -302,9 +339,9 @@ public class GameBoard {
     }
 
     private void setSixthPlayer() {
-        int temp = (sideLength - 1) * 2;
+        int temp = (side - 1) * 2;
         int temp2 = 0;
-        for (int row = sideLength - 1; row < (sideLength - 1) * 2; row++) {
+        for (int row = side - 1; row < (side - 1) * 2; row++) {
             for (int column = temp2; column < temp; column = column + 2) {
                 addPiece(column, row, 5);
                 arrayOfTiles[column][row].setStroke(Color.web("#FD7F20"));
@@ -318,9 +355,9 @@ public class GameBoard {
         }
 
         if (numberOfPlayers == 3) {
-            int x = width - ((sideLength - 1) * 2 + 1);
+            int x = width - ((side - 1) * 2 + 1);
             int y = width - 1;
-            for (int r = height - sideLength; r > (sideLength - 1) * 2; r--) {
+            for (int r = height - side; r > (side - 1) * 2; r--) {
                 for (int c = y; c > x; c = c - 2) {
                     arrayOfTiles[c][r].setBase(5);
                     sixthPlayer.add(arrayOfTiles[c][r]);
@@ -330,4 +367,5 @@ public class GameBoard {
             }
         }
     }
+
 }
