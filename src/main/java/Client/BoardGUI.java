@@ -15,7 +15,7 @@ public class BoardGUI extends Application {
     static int numberOfPlayers;
     Board board;
 
-    public static final int sideLength = 5;
+    public static final int sideLength = 4;
 
     // Maximum width and height of the board
     public int height = 0;

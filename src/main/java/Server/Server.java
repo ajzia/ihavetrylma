@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 public class Server {
 
     public static void main(String[] args) throws Exception {
-        try (var listener = new ServerSocket(15375)) {
+        try (var listener = new ServerSocket(15373)) {
             System.out.println("Server is running...");
             var pool = Executors.newFixedThreadPool(10);
 

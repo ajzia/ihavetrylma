@@ -3,6 +3,8 @@ package Client;
 import javax.swing.*;
 import java.awt.*;
 
+import static Client.Client.makeAction;
+
 public class Lobby extends JFrame {
 
     WaitingRoom waitingRoom;
@@ -74,7 +76,7 @@ public class Lobby extends JFrame {
     }
 
     public void clicked() {
-        Client.makeAction("GOAL" + " " + players);
+        makeAction("GOAL" + " " + players);
         this.dispose();
         makeWaitingRoom();
     }

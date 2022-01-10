@@ -4,13 +4,10 @@ import Client.Tile;
 
 public class GameTile extends Tile {
 
-    protected int base = -1;
+    GameBoard board;
+    int base = -1;
 
-    public boolean hasOwner() {
-        return owner != -1;
-    }
-
-    protected GameTile(int column, int row, GameBoard board, int sideLength) {
+    public GameTile(int column, int row, GameBoard board, int sideLength) {
         super(column, row, board, sideLength);
     }
 

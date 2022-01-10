@@ -20,7 +20,7 @@ public class Board {
     protected int movingRow = -1;
     protected int movingColumn = -1;
 
-    protected Board(int height, int width, Tile[][] arrayOfTiles, int numberOfPlayers, int sideLength, GridPane gameBoard) {
+    public Board(int height, int width, Tile[][] arrayOfTiles, int numberOfPlayers, int sideLength, GridPane gameBoard) {
         this.height = height;
         this.width = width;
         this.arrayOfTiles = arrayOfTiles;
@@ -31,7 +31,7 @@ public class Board {
 
     // Width of each row of the triangle, + 3 when side = side + 1
     protected static final int[] WIDTHS = {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10//, 11, 12, 13
     };
 
     protected void createSkipButton() {

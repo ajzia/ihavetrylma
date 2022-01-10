@@ -26,7 +26,7 @@ public class Client {
     }
 
     private Client(String serverAddress) throws Exception {
-        socket = new Socket(serverAddress, 15375);
+        socket = new Socket(serverAddress, 15373);
 
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);

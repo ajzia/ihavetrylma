@@ -46,7 +46,7 @@ public class Tile extends Circle {
         });
     }
 
-    protected void setOwner(int owner) {
+    public void setOwner(int owner) {
         this.owner = owner;
         setFill(getColor());
     }
@@ -55,7 +55,11 @@ public class Tile extends Circle {
         return owner;
     }
 
-    protected Color getColor() {
+    public boolean hasOwner() {
+        return owner != -1;
+    }
+
+    public Color getColor() {
         return Colour.setTileColor(owner);
     }
 }
