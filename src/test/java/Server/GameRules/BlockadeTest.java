@@ -24,10 +24,6 @@ public class BlockadeTest {
 
         gameBoard = new GameBoard(height, width, tile, goalPlayers, side);
 
-        Method method = GameBoard.class.getDeclaredMethod("makeBlockades");
-        method.setAccessible(true);
-        method.invoke(gameBoard);
-
         Method method1 = GameBoard.class.getDeclaredMethod("checkBlockade", int.class);
         method1.setAccessible(true);
         boolean result = (boolean) method1.invoke(gameBoard, 3);
@@ -36,16 +32,16 @@ public class BlockadeTest {
         Method method2 = Tile.class.getDeclaredMethod("setOwner", int.class);
         method2.setAccessible(true);
 
-        Method method3 = GameBoard.class.getDeclaredMethod("getPlayerPieces", int.class);
+        Method method3 = GameBoard.class.getDeclaredMethod("getPlayerBases", int.class);
         method3.setAccessible(true);
-        ArrayList<GameTile> first = (ArrayList<GameTile>) method3.invoke(gameBoard, 0);
+        ArrayList<GameTile> fourth = (ArrayList<GameTile>) method3.invoke(gameBoard, 3);
 
-        for (GameTile f: first) {
+        for (GameTile f: fourth) {
             method2.invoke(f, 3);
         }
 
         for (int i = 0; i < 3; i++) {
-            method2.invoke(first.get(i), 2);
+            method2.invoke(fourth.get(i), 2);
         }
 
         result = (boolean) method1.invoke(gameBoard, 3);
