@@ -107,7 +107,9 @@ public class Player implements Runnable {
 
                     } else if (block == 2) {
                         setState(block);
+                        game.sendToAll(command);
                         out.println("BLOCK");
+                        out.println("ENDGAME");
 
                     } else if (move == 2) {
                         game.nextPlayer();
