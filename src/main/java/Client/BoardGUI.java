@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class BoardGUI extends Application {
 
     private static volatile BoardGUI instance;
@@ -16,22 +18,22 @@ public class BoardGUI extends Application {
     public static final int sideLength = 5;
 
     // Maximum width and height of the board
-    public  int height = 0;
-    public  int width = 0;
+    public int height = 0;
+    public int width = 0;
 
-    public void calculateHeight(int sideLength){
+    public void calculateHeight(int sideLength) {
         height = sideLength + 3 * (sideLength - 1);
     }
 
-    public void calculateWidth(int sideLength){
+    public void calculateWidth(int sideLength) {
         width = 2 * (sideLength + 2 * (sideLength - 1)) - 1;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return height;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
 
@@ -62,6 +64,11 @@ public class BoardGUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(true);
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws IOException {
+        Client.socket.close();
     }
 
     public void makeBoard(Tile[][] arrayOfTiles, GridPane gameBoard) {

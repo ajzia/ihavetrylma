@@ -60,8 +60,10 @@ public class Client {
 
                         out.println("START");
 
-                    } else System.out.println("The game already started!");   // do nothing
-
+                    } else {
+                        System.out.println("The game already started!");   // do nothing
+                        socket.close();
+                    }
                 } else if (response.startsWith("START")) {
                     String[] move = response.split(" ");
                     int active = Integer.parseInt(move[1]);
