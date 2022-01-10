@@ -269,4 +269,30 @@ public class GameBoard extends Board {
         }
     }
 
+    private ArrayList<GameTile> getPlayerPieces(int owner) {
+        switch (owner) {
+            case 0 -> {
+                return firstPlayer;
+            }
+            case 1 -> {
+                return secondPlayer;
+            }
+            case 2 -> {
+                return thirdPlayer;
+            }
+            case 3 -> {
+                return fourthPlayer;
+            }
+            case 4 -> {
+                return fifthPlayer;
+            }
+            case 5 -> {
+                return sixthPlayer;
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
+
 }
