@@ -95,8 +95,13 @@ public class Client {
 
                 } else if (response.startsWith("VICTORY!")) {
                     System.out.println("FINALLY! A WORTHY OPPONENT!");
+
                 } else if (response.startsWith("BLOCK")) {
                     System.out.println("You are blocked :((");
+
+                } else if (response.startsWith("ENDGAME")) {
+                    System.out.println("The end! Thank you for playing");
+                    socket.close();
                 }
             }
         } catch (Exception e) {

@@ -99,17 +99,23 @@ public class Player implements Runnable {
                 if (move > 0) {
                     int win = game.playerVictory(color);
                     int block = game.playersBlocked(color);
+
                     if (win == 1) {
                         setState(win);
                         out.println("VICTORY!");
+                        game.nextPlayer();
 
                     } else if (block == 2) {
                         setState(block);
                         out.println("BLOCK");
+
                     } else if (move == 2) {
                         game.nextPlayer();
+
                     }
                     game.sendToAll(command);
+
+                    game.checkForEnd();
 
                 } else sendMessage("INVALID_MOVE");
 
