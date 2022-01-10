@@ -90,7 +90,7 @@ public class Game {
 
     protected void makeBoard() {
         GameTile[][] tile = new GameTile[width][height];
-        gameBoard = new GameBoard(width, height, tile, goalPlayers, side);
+        gameBoard = new GameBoard(height, width, tile, goalPlayers, side);
         gameBoard.makeBlockades();
     }
 
@@ -101,7 +101,7 @@ public class Game {
         int x2 = Integer.parseInt(move[3]);
         int y2 = Integer.parseInt(move[4]);
 
-        return gameBoard.makeMove(x1, y1, x2, y2);
+        return gameBoard.makeMoves(x1, y1, x2, y2);
     }
 
     protected int playerVictory(int color) {

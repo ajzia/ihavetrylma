@@ -7,10 +7,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class Board {
-
-    private final int numberOfPlayers;
-    private final int sideLength;
-    private final int height, width;
+    protected final int numberOfPlayers;
+    protected final int sideLength;
+    protected final int height;
+    protected final int width;
     private final Tile[][] arrayOfTiles;
 
     private final GridPane gameBoard;
@@ -20,7 +20,7 @@ public class Board {
     protected int movingRow = -1;
     protected int movingColumn = -1;
 
-    Board(int height, int width, Tile[][] arrayOfTiles, int numberOfPlayers, int sideLength, GridPane gameBoard) {
+    protected Board(int height, int width, Tile[][] arrayOfTiles, int numberOfPlayers, int sideLength, GridPane gameBoard) {
         this.height = height;
         this.width = width;
         this.arrayOfTiles = arrayOfTiles;
@@ -30,7 +30,7 @@ public class Board {
     }
 
     // Width of each row of the triangle, + 3 when side = side + 1
-    private static final int[] WIDTHS = {
+    protected static final int[] WIDTHS = {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
     };
 
@@ -136,11 +136,11 @@ public class Board {
         }
     }
 
-    private void addPiece(int column, int row, int owner) {
+    protected void addPiece(int column, int row, int owner) {
         arrayOfTiles[column][row].setOwner(owner);
     }
 
-    private void removePiece(int column, int row) {
+    protected void removePiece(int column, int row) {
         arrayOfTiles[column][row].setOwner(-1);
     }
 

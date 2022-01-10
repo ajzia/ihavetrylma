@@ -5,13 +5,14 @@ import javafx.scene.shape.Circle;
 
 public class Tile extends Circle {
 
-    Board board;
-    int column, row;
-    int owner = -1;
-    int sideLength;
-    int radius = 15;
+    protected Board board;
+    protected int column;
+    protected int row;
+    protected int owner = -1;
+    protected int sideLength;
+    protected int radius = 15;
 
-    public Tile(int column, int row, Board board, int sideLength) {
+    protected Tile(int column, int row, Board board, int sideLength) {
         this.column = column;
         this.row = row;
         this.board = board;
@@ -45,7 +46,7 @@ public class Tile extends Circle {
         });
     }
 
-    public void setOwner(int owner) {
+    protected void setOwner(int owner) {
         this.owner = owner;
         setFill(getColor());
     }
@@ -54,7 +55,7 @@ public class Tile extends Circle {
         return owner;
     }
 
-    public Color getColor() {
+    protected Color getColor() {
         return Colour.setTileColor(owner);
     }
 }
