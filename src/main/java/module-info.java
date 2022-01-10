@@ -4,8 +4,8 @@ module com.example.ihavetrylma {
     requires java.desktop;
 
 
-    opens com.example.ihavetrylma to javafx.fxml;
-    exports com.example.ihavetrylma;
+    opens Client to javafx.fxml;
+    exports Client;
     exports Server;
     opens Server to javafx.fxml;
 }

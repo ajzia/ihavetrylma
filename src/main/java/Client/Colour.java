@@ -1,4 +1,4 @@
-package com.example.ihavetrylma;
+package Client;
 
 import javafx.scene.paint.Color;
 

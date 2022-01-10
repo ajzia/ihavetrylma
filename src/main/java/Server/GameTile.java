@@ -1,6 +1,6 @@
 package Server;
 
-import com.example.ihavetrylma.Colour;
+import Client.Colour;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 

@@ -1,4 +1,4 @@
-package com.example.ihavetrylma;
+package Client;
 import javax.swing.*;
 import java.awt.*;
 

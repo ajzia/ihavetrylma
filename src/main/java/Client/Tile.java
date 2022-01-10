@@ -1,4 +1,4 @@
-package com.example.ihavetrylma;
+package Client;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -8,7 +8,6 @@ public class Tile extends Circle {
     Board board;
     int column, row;
     int owner = -1;
-    int base = -1;
     int sideLength;
     int radius = 15;
 
@@ -53,10 +52,6 @@ public class Tile extends Circle {
 
     public int getOwner() {
         return owner;
-    }
-
-    public void setBase(int owner){
-        this.base = owner;
     }
 
     public Color getColor() {

@@ -1,4 +1,4 @@
-package com.example.ihavetrylma;
+package Client;
 
 import javafx.application.Application;
 import javafx.geometry.*;
@@ -16,14 +16,32 @@ public class BoardGUI extends Application {
     public static final int sideLength = 5;
 
     // Maximum width and height of the board
-    public static final int height = sideLength + 3 * (sideLength - 1);
-    public static final int width = 2 * (sideLength + 2 * (sideLength - 1)) - 1;
+    public  int height = 0;
+    public  int width = 0;
+
+    public void calculateHeight(int sideLength){
+        height = sideLength + 3 * (sideLength - 1);
+    }
+
+    public void calculateWidth(int sideLength){
+        width = 2 * (sideLength + 2 * (sideLength - 1)) - 1;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public int getWidth(){
+        return width;
+    }
 
     public static void setNumberOfPlayers(int numberOfPlayers) {
         BoardGUI.numberOfPlayers = numberOfPlayers;
     }
 
     public Parent createBoard() {
+        calculateHeight(sideLength);
+        calculateWidth(sideLength);
         GridPane gameBoard = new GridPane();
         gameBoard.setAlignment(Pos.CENTER);
         gameBoard.setVgap(10);

@@ -1,9 +1,7 @@
-package com.example.ihavetrylma;
+package Client;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static com.example.ihavetrylma.Client.makeAction;
 
 public class Lobby extends JFrame {
 
@@ -76,7 +74,7 @@ public class Lobby extends JFrame {
     }
 
     public void clicked() {
-        makeAction("GOAL" + " " + players);
+        Client.makeAction("GOAL" + " " + players);
         this.dispose();
         makeWaitingRoom();
     }
