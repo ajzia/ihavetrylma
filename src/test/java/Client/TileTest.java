@@ -25,4 +25,10 @@ public class TileTest {
         Assertions.assertEquals(12, tile.getRadius());
     }
 
+    @Test
+    public void hasOwnerTest() {
+        Tile tile = new Tile(12, 0, null, 4);
+        Assertions.assertFalse(tile.hasOwner());
+    }
+
 }
