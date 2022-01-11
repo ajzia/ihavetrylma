@@ -1,4 +1,5 @@
 package Server.GameRules;
+
 import Server.GameTile;
 
 import java.util.ArrayList;
@@ -11,10 +12,6 @@ public class WinningCondition {
     public WinningCondition(int pieces, ArrayList<GameTile> pawns) {
         this.pawns = pawns;
         this.pieces = pieces;
-
-        for (GameTile p: pawns) {
-            System.out.println(p);
-        }
     }
 
     public boolean ifWon() {

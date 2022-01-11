@@ -17,11 +17,7 @@ public class Client {
     private Lobby lobby;
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Pass the server IP as the sole command line argument");
-            return;
-        }
-        Client client = new Client(args[0]);
+        Client client = new Client("localhost");
         client.play();
     }
 

@@ -14,7 +14,7 @@ public class Player implements Runnable {
 
     private final int id;
     private int color;
-    private boolean turn = false;
+    protected boolean turn = false;
     private int state = 0;
 
     protected Player(Socket socket, Game game) {
@@ -33,7 +33,7 @@ public class Player implements Runnable {
         this.color = color;
     }
 
-    private int getColor() {
+    protected int getColor() {
         return color;
     }
 
@@ -45,10 +45,6 @@ public class Player implements Runnable {
         return state;
     }
 
-    protected int getId() {
-        return id;
-    }
-
     protected void setTurn(boolean turn) {
         this.turn = turn;
     }
@@ -58,9 +54,7 @@ public class Player implements Runnable {
         try {
             setup();
             processCommands();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
         try {
             socket.close();
         } catch (IOException ignored) {

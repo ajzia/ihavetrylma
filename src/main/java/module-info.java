@@ -8,4 +8,6 @@ module com.example.ihavetrylma {
     exports Client;
     exports Server;
     opens Server to javafx.fxml;
+    exports Server.GameRules;
+    opens Server.GameRules to javafx.fxml;
 }
