@@ -20,6 +20,8 @@ public class Board {
     protected int movingRow = -1;
     protected int movingColumn = -1;
 
+    protected int[] WIDTHS;
+
     public Board(int height, int width, Tile[][] arrayOfTiles, int numberOfPlayers, int sideLength, GridPane gameBoard) {
         this.height = height;
         this.width = width;
@@ -27,12 +29,17 @@ public class Board {
         this.numberOfPlayers = numberOfPlayers;
         this.sideLength = sideLength;
         this.gameBoard = gameBoard;
+
+        countWidths(sideLength);
     }
 
-    // Width of each row of the triangle, + 3 when side = side + 1
-    protected static final int[] WIDTHS = {
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-    };
+    protected void countWidths(int sideLength) {
+        WIDTHS = new int[7 + 3 * (sideLength - 3)];
+
+        for (int i = 1; i <= 7 + 3 * (sideLength - 3); i++) {
+            WIDTHS[i - 1] = i;
+        }
+    }
 
     protected void createSkipButton() {
         skip = new Button("Skip");
