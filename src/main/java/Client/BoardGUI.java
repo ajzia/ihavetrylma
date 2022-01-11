@@ -15,29 +15,29 @@ public class BoardGUI extends Application {
     static int numberOfPlayers;
     Board board;
 
-    public static final int sideLength = 5;
+    protected static final int sideLength = 5;
 
     // Maximum width and height of the board
-    public int height = 0;
-    public int width = 0;
+    protected int height;
+    protected int width;
 
-    public void calculateHeight(int sideLength) {
+    protected void calculateHeight(int sideLength) {
         height = sideLength + 3 * (sideLength - 1);
     }
 
-    public void calculateWidth(int sideLength) {
+    protected void calculateWidth(int sideLength) {
         width = 2 * (sideLength + 2 * (sideLength - 1)) - 1;
     }
 
-    public int getHeight() {
+    protected int getHeight() {
         return height;
     }
 
-    public int getWidth() {
+    protected int getWidth() {
         return width;
     }
 
-    public static void setNumberOfPlayers(int numberOfPlayers) {
+    protected static void setNumberOfPlayers(int numberOfPlayers) {
         BoardGUI.numberOfPlayers = numberOfPlayers;
     }
 
@@ -71,7 +71,7 @@ public class BoardGUI extends Application {
         Client.socket.close();
     }
 
-    public void makeBoard(Tile[][] arrayOfTiles, GridPane gameBoard) {
+    protected void makeBoard(Tile[][] arrayOfTiles, GridPane gameBoard) {
         Board board1 = new Board(height, width, arrayOfTiles, numberOfPlayers, sideLength, gameBoard);
         board1.createTiles();
         board1.makePieces();
@@ -80,15 +80,15 @@ public class BoardGUI extends Application {
         setBoard(board1);
     }
 
-    public void setBoard(Board board) {
+    protected void setBoard(Board board) {
         this.board = board;
     }
 
-    public Board getBoard() {
+    protected Board getBoard() {
         return board;
     }
 
-    public static BoardGUI getInstance() {
+    protected static BoardGUI getInstance() {
         if (instance == null) {
             synchronized (BoardGUI.class) {
                 if (instance == null) {
