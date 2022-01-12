@@ -9,13 +9,7 @@ import java.util.ArrayList;
 
 public class GameBoard extends Board {
 
-    // bazy docelowe
-    protected ArrayList<GameTile> firstPlayer = new ArrayList<>();
-    protected ArrayList<GameTile> secondPlayer = new ArrayList<>();
-    protected ArrayList<GameTile> thirdPlayer = new ArrayList<>();
-    protected ArrayList<GameTile> fourthPlayer = new ArrayList<>();
-    protected ArrayList<GameTile> fifthPlayer = new ArrayList<>();
-    protected ArrayList<GameTile> sixthPlayer = new ArrayList<>();
+    protected ArrayList<GameTile> bases = new ArrayList<>();
 
     protected GameTile[][] arrayOfTiles;
 
@@ -121,36 +115,9 @@ public class GameBoard extends Board {
         jumpRow = 0;
     }
 
-    protected int isThisTheEnd(int color) {
-        switch (color) {
-            case 0 -> {
-                WinningCondition win = new WinningCondition(howManyPieces(), firstPlayer);
-                return win.ifWon() ? 1 : 0;
-            }
-            case 1 -> {
-                WinningCondition win = new WinningCondition(howManyPieces(), secondPlayer);
-                return win.ifWon() ? 1 : 0;
-            }
-            case 2 -> {
-                WinningCondition win = new WinningCondition(howManyPieces(), thirdPlayer);
-                return win.ifWon() ? 1 : 0;
-            }
-            case 3 -> {
-                WinningCondition win = new WinningCondition(howManyPieces(), fourthPlayer);
-                return win.ifWon() ? 1 : 0;
-            }
-            case 4 -> {
-                WinningCondition win = new WinningCondition(howManyPieces(), fifthPlayer);
-                return win.ifWon() ? 1 : 0;
-            }
-            case 5 -> {
-                WinningCondition win = new WinningCondition(howManyPieces(), sixthPlayer);
-                return win.ifWon() ? 1 : 0;
-            }
-            default -> {
-                return 0;
-            }
-        }
+    protected int isThisTheEnd(int owner) {
+        WinningCondition win = new WinningCondition(howManyPieces(), getBase(owner));
+        return win.ifWon() ? 1 : 0;
     }
 
     protected void makeBlockades() {
@@ -159,29 +126,7 @@ public class GameBoard extends Board {
     }
 
     protected boolean checkBlockade(int owner) {
-        switch (owner) {
-            case 0 -> {
-                return blockades.isBlockade(firstPlayer, owner);
-            }
-            case 1 -> {
-                return blockades.isBlockade(secondPlayer, owner);
-            }
-            case 2 -> {
-                return blockades.isBlockade(thirdPlayer, owner);
-            }
-            case 3 -> {
-                return blockades.isBlockade(fourthPlayer, owner);
-            }
-            case 4 -> {
-                return blockades.isBlockade(fifthPlayer, owner);
-            }
-            case 5 -> {
-                return blockades.isBlockade(sixthPlayer, owner);
-            }
-            default -> {
-                return false;
-            }
-        }
+        return blockades.isBlockade(getBase(owner), owner);
     }
 
     private void makeBases() {
@@ -199,7 +144,7 @@ public class GameBoard extends Board {
         for (int row = height - 1; row > height - 1 - (sideLength - 1); row--) {
             for (int column = temp2; column <= temp; column = column + 2) {
                 arrayOfTiles[column][row].setBase(0);
-                firstPlayer.add(arrayOfTiles[column][row]);
+                bases.add(arrayOfTiles[column][row]);
             }
             temp++;
             temp2--;
@@ -212,7 +157,7 @@ public class GameBoard extends Board {
         for (int row = height - sideLength; row > (sideLength - 1) * 2; row--) {
             for (int column = temp2; column < temp; column = column + 2) {
                 arrayOfTiles[column][row].setBase(1);
-                secondPlayer.add(arrayOfTiles[column][row]);
+                bases.add(arrayOfTiles[column][row]);
             }
             temp--;
             temp2++;
@@ -225,7 +170,7 @@ public class GameBoard extends Board {
         for (int row = sideLength - 1; row < (sideLength - 1) * 2; row++) {
             for (int column = temp2; column < temp; column = column + 2) {
                 arrayOfTiles[column][row].setBase(2);
-                thirdPlayer.add(arrayOfTiles[column][row]);
+                bases.add(arrayOfTiles[column][row]);
             }
             temp--;
             temp2++;
@@ -238,7 +183,7 @@ public class GameBoard extends Board {
         for (int row = 0; row < sideLength - 1; row++) {
             for (int column = temp2; column <= temp; column = column + 2) {
                 arrayOfTiles[column][row].setBase(3);
-                fourthPlayer.add(arrayOfTiles[column][row]);
+                bases.add(arrayOfTiles[column][row]);
             }
             temp++;
             temp2--;
@@ -251,7 +196,7 @@ public class GameBoard extends Board {
         for (int row = sideLength - 1; row < (sideLength - 1) * 2; row++) {
             for (int column = temp2; column > temp; column = column - 2) {
                 arrayOfTiles[column][row].setBase(4);
-                fifthPlayer.add(arrayOfTiles[column][row]);
+                bases.add(arrayOfTiles[column][row]);
             }
             temp++;
             temp2--;
@@ -264,37 +209,19 @@ public class GameBoard extends Board {
         for (int row = height - sideLength; row > (sideLength - 1) * 2; row--) {
             for (int column = temp2; column > temp; column = column - 2) {
                 arrayOfTiles[column][row].setBase(5);
-                sixthPlayer.add(arrayOfTiles[column][row]);
+                bases.add(arrayOfTiles[column][row]);
             }
             temp++;
             temp2--;
         }
     }
 
-    public ArrayList<GameTile> getBases(int owner) {
-        switch (owner) {
-            case 0 -> {
-                return firstPlayer;
-            }
-            case 1 -> {
-                return secondPlayer;
-            }
-            case 2 -> {
-                return thirdPlayer;
-            }
-            case 3 -> {
-                return fourthPlayer;
-            }
-            case 4 -> {
-                return fifthPlayer;
-            }
-            case 5 -> {
-                return sixthPlayer;
-            }
-            default -> {
-                return null;
-            }
+    private ArrayList<GameTile> getBase(int owner) {
+        ArrayList<GameTile> base = new ArrayList<>();
+        for (int i = owner * howManyPieces(); i < (owner + 1) * howManyPieces(); i++) {
+            base.add(bases.get(i));
         }
+        return base;
     }
 
 }

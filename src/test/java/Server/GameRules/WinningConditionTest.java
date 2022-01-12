@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class WinningConditionTest {
 
   @Test
-  public void isBlockadeTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+  public void ifWonTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     int side = 5;
     int height = side + 3 * (side - 1);
     int width = 2 * (side + 2 * (side - 1)) - 1;
@@ -29,7 +29,10 @@ public class WinningConditionTest {
     Method method1 = Tile.class.getDeclaredMethod("setOwner", int.class);
     method1.setAccessible(true);
 
-    ArrayList<GameTile> first = gameBoard.getBases(0);
+    Method method3 = GameBoard.class.getDeclaredMethod("getBase", int.class);
+    method3.setAccessible(true);
+
+    ArrayList<GameTile> first = (ArrayList<GameTile>) method3.invoke(gameBoard, 0);
 
     for (GameTile f: first) {
       method1.invoke(f, 0);

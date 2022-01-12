@@ -17,7 +17,6 @@ public class BlockadeTest {
 
     @BeforeEach
     void setUp() {
-
         int side = 5;
         int height = side + 3 * (side - 1);
         int width = 2 * (side + 2 * (side - 1)) - 1;
@@ -30,7 +29,6 @@ public class BlockadeTest {
 
     @Test
     public void isBlockadeTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-
         Method method1 = GameBoard.class.getDeclaredMethod("checkBlockade", int.class);
         method1.setAccessible(true);
         boolean result = (boolean) method1.invoke(gameBoard, 3);
@@ -39,7 +37,10 @@ public class BlockadeTest {
         Method method2 = Tile.class.getDeclaredMethod("setOwner", int.class);
         method2.setAccessible(true);
 
-        ArrayList<GameTile> fourth = gameBoard.getBases(3);
+        Method method3 = GameBoard.class.getDeclaredMethod("getBase", int.class);
+        method3.setAccessible(true);
+
+        ArrayList<GameTile> fourth = (ArrayList<GameTile>) method3.invoke(gameBoard, 3);
 
         for (GameTile f: fourth) {
             method2.invoke(f, 3);
