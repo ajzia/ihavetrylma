@@ -1,5 +1,7 @@
 package Server;
 
+import Client.BoardGUI;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -8,7 +10,7 @@ public class Game {
 
     protected int current;
 
-    private static final int side = 5;
+    private static final int side = BoardGUI.getSide();
     private static final int height = side + 3 * (side - 1);
     private static final int width = 2 * (side + 2 * (side - 1)) - 1;
 
@@ -78,7 +80,7 @@ public class Game {
         }
 
         do {
-            current = (current + 1) % active;
+            current = (current + 1) % goalPlayers;
         } while (getPlayer(current).getState() > 0);
 
         gameBoard.resetJump();

@@ -6,20 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class BoardGUI extends Application {
-
     private static volatile BoardGUI instance;
-    static int numberOfPlayers;
-    Board board;
-
-    protected static final int sideLength = 5;
-
-    // Maximum width and height of the board
-    protected int height;
-    protected int width;
+    private static final int sideLength = 7;
+    private static int numberOfPlayers;
+    private int height;
+    private int width;
+    private Board board;
 
     protected void calculateHeight(int sideLength) {
         height = sideLength + 3 * (sideLength - 1);
@@ -37,11 +32,15 @@ public class BoardGUI extends Application {
         return width;
     }
 
+    public static int getSide() {
+        return sideLength;
+    }
+
     protected static void setNumberOfPlayers(int numberOfPlayers) {
         BoardGUI.numberOfPlayers = numberOfPlayers;
     }
 
-    public Parent createBoard() {
+    protected Parent createBoard() {
         calculateHeight(sideLength);
         calculateWidth(sideLength);
         GridPane gameBoard = new GridPane();
