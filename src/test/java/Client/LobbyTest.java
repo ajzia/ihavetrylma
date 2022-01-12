@@ -11,7 +11,7 @@ public class LobbyTest {
         Assertions.assertNotNull(lobby);
 
         final Lobby lobby2 = new Lobby(3);
-        Assertions.assertNotNull(lobby2);
+        Assertions.assertNotNull(lobby2.waitingRoom);
     }
 
     @Test

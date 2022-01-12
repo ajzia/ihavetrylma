@@ -22,6 +22,15 @@ public class BoardTest {
         board = new Board(height, width, tile, numberOfPlayers, side, gridPane);
     }
 
+    @Test
+    public void countWidthsTest() {
+        board.createTiles();
+        board.makePieces();
+
+        Assertions.assertNotNull(board.WIDTHS);
+        Assertions.assertEquals(13, board.WIDTHS[12]);
+    }
+
 
     @Test
     public void makeBoardTest() {
