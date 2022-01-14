@@ -5,11 +5,25 @@ import java.awt.*;
 
 import static Client.Client.makeAction;
 
+/**
+ * Class responsible for lobby
+ */
 public class Lobby extends JFrame {
 
+    /**
+     * Waiting room object
+     */
     WaitingRoom waitingRoom;
+    /**
+     * Number of players
+     */
     int players;
 
+    /**
+     * Lobby constructor
+     * Creates lobby for the first player. For every other player creates waiting room
+     * @param active - if lobby is active
+     */
     Lobby(int active) {
         if (active == 1) {
             this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -27,6 +41,9 @@ public class Lobby extends JFrame {
 
     }
 
+    /**
+     * Method adding text "Choose number of players: "
+     */
     public void addTextArea() {
         JTextArea textArea = new JTextArea("Choose number of players: ");
         textArea.setBounds(42, 20, 200, 30);
@@ -38,6 +55,9 @@ public class Lobby extends JFrame {
         this.add(textArea);
     }
 
+    /**
+     * Method creating buttons, adding them to the lobby window and giving them actions
+     */
     public void addButtons() {
         JButton two = new JButton("two");
         JButton three = new JButton("three");
@@ -75,16 +95,26 @@ public class Lobby extends JFrame {
         this.add(six);
     }
 
+    /**
+     * Method setting number of players
+     */
     public void clicked() {
         makeAction("GOAL" + " " + players);
         this.dispose();
         makeWaitingRoom();
     }
 
+    /**
+     * Method making waiting room for players
+     */
     public void makeWaitingRoom() {
         waitingRoom = new WaitingRoom();
     }
 
+    /**
+     * Method returning waiting room
+     * @return waiting room
+     */
     public WaitingRoom getWaitingRoom() {
         return waitingRoom;
     }

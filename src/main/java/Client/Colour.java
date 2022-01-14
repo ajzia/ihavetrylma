@@ -2,9 +2,15 @@ package Client;
 
 import javafx.scene.paint.Color;
 
+/*
+ * Class responsible for storing colours for tiles
+ */
 public class Colour {
 
-    public static Color setTileColor(int owner) {
+    /*
+     * Method returning a color depending on an owner number
+     */
+    public static Color getTileColor(int owner) {
         return switch (owner) {
             case 0 -> Color.web("#FCC6F6");
             case 1 -> Color.web("#C55FFC");

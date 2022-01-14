@@ -2,8 +2,14 @@ package Client;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class responsible for a waiting room
+ */
 public class WaitingRoom extends JFrame {
 
+    /**
+     * WaitingRoom constructor
+     */
     WaitingRoom() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -17,6 +23,10 @@ public class WaitingRoom extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Method adding text area to the window with an information for players to wait for other
+     * players to connect
+     */
     public void addTextArea() {
         JTextArea textArea = new JTextArea("Please wait for the other players to connect");
         textArea.setBounds(22, 20, 320, 30);

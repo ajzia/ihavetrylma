@@ -6,22 +6,61 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+/**
+ * Class responsible for everything visible on the board: tiles, pieces, skip button, "Your turn!" text
+ */
 public class Board {
+    /**
+     * Variable containing number of players
+     */
     protected final int numberOfPlayers;
+    /**
+     * Variable containing length of a side of a hexagon
+     */
     protected final int sideLength;
+    /**
+     * Variable containing maximum number of rows
+     */
     protected final int height;
+    /**
+     * Variable containing maximum number of columns
+     */
     protected final int width;
+    /**
+     * Array containing tiles
+     */
     private final Tile[][] arrayOfTiles;
 
+    /**
+     * Layout of a board
+     */
     private final GridPane gameBoard;
+    /**
+     * Button responsible for skipping a turn
+     */
     private Button skip;
+    /**
+     * Label containing "Your turn!" text
+     */
     private Label yourTurn;
 
     protected int movingRow = -1;
     protected int movingColumn = -1;
 
+    /**
+     * Array containing widths of every row of a big triangle
+     */
     protected int[] WIDTHS;
 
+    /**
+     * Board constructor
+     * @param height - maximum number of tiles in a column
+     * @param width - maximum number of tiles in a row
+     * @param arrayOfTiles - array containing every tile
+     * @param numberOfPlayers - number of players that play the game
+     * @param sideLength - side length of a hexagon
+     * @param gameBoard - layout of the board
+     */
     public Board(int height, int width, Tile[][] arrayOfTiles, int numberOfPlayers, int sideLength, GridPane gameBoard) {
         this.height = height;
         this.width = width;
@@ -33,6 +72,10 @@ public class Board {
         countWidths(sideLength);
     }
 
+    /**
+     * Method counting the lengths of rows of the biggest triangle
+     * @param sideLength - length of a side of a hexagon
+     */
     protected void countWidths(int sideLength) {
         WIDTHS = new int[7 + 3 * (sideLength - 3)];
 
@@ -41,41 +84,56 @@ public class Board {
         }
     }
 
+    /**
+     * Method creating skip button,
+     * giving it action after clicking on it
+     * and adding it to the board
+     */
     protected void createSkipButton() {
         skip = new Button("Skip");
-        skip.setVisible(Client.turn);
+        changeButtonVisibility();
         skip.setOnMouseClicked(e -> Client.makeAction("SKIP"));
 
         gameBoard.add(skip, width - 2 - ((sideLength - 1) + (sideLength - 3)) / 2, height - sideLength / 2, 3, 1);
     }
 
+    /**
+     * Method changing button visibility
+     */
     protected void changeButtonVisibility() {
         skip.setVisible(Client.turn);
     }
 
+    /**
+     * Method creating "Your turn!" text,
+     * giving it a color of player's pieces
+     * and adding to the board
+     */
     protected void createYourTurnText() {
         Pane pane = new Pane();
         yourTurn = new Label("Your turn!");
         pane.getChildren().add(yourTurn);
 
-        if (Client.turn) {
-            yourTurn.setTextFill(Colour.setTileColor(Client.colour));
-            yourTurn.setVisible(true);
-        } else yourTurn.setVisible(false);
-
+        changeTextVisibility();
 
         gameBoard.add(yourTurn, (((sideLength - 1) + (sideLength - 3)) / 2), sideLength / 2 - 1, 3, 1);
     }
 
+    /**
+     * Method changing visibility of "Your turn!" text
+     */
     protected void changeTextVisibility() {
         if (Client.turn) {
             yourTurn.setVisible(true);
-            yourTurn.setTextFill(Colour.setTileColor(Client.colour));
+            yourTurn.setTextFill(Colour.getTileColor(Client.colour));
         } else {
             yourTurn.setVisible(false);
         }
     }
 
+    /**
+     * Method creating tiles
+     */
     protected void createTiles() {
         int temp = WIDTHS[WIDTHS.length - 2];
         Tile tile;
@@ -114,6 +172,9 @@ public class Board {
         }
     }
 
+    /**
+     * Method creating pieces for players depending on number of players
+     */
     protected void makePieces() {
         switch (numberOfPlayers) {
             case 2 -> {
@@ -143,23 +204,51 @@ public class Board {
         }
     }
 
+    /**
+     *  Method adding piece in a new place
+     * @param column - column number
+     * @param row - row number
+     * @param owner - owner number
+     */
     protected void addPiece(int column, int row, int owner) {
         arrayOfTiles[column][row].setOwner(owner);
     }
 
+    /**
+     * Method removing piece from a previous place
+     * @param column - column number
+     * @param row - row number
+     */
     protected void removePiece(int column, int row) {
         arrayOfTiles[column][row].setOwner(-1);
     }
 
+    /**
+     * Method that sends information about the move to the client
+     * @param oldColumn - previous column number
+     * @param oldRow - previous row number
+     * @param newColumn - new column number
+     * @param newRow - new row number
+     */
     protected void movePiece(int oldColumn, int oldRow, int newColumn, int newRow) {
         Client.makeAction("MOVE " + oldColumn + " " + oldRow + " " + newColumn + " " + newRow);    // Move x1 y1 x2 y2
     }
 
+    /**
+     * Method that moves piece
+     * @param oldColumn - previous column number
+     * @param oldRow - previous row number
+     * @param newColumn - new column number
+     * @param newRow - new row number
+     */
     protected void makeMove(int oldColumn, int oldRow, int newColumn, int newRow) {
         addPiece(newColumn, newRow, arrayOfTiles[oldColumn][oldRow].getOwner());
         removePiece(oldColumn, oldRow);
     }
 
+    /**
+     * Creating pieces for first player ( upper star arm )
+     */
     private void setFirstPlayer() {
         int temp = width / 2;
         int temp2 = width / 2;
@@ -173,6 +262,9 @@ public class Board {
         }
     }
 
+    /**
+     * Creating pieces for second player ( upper right star arm )
+     */
     private void setSecondPlayer() {
         int temp = width - ((sideLength - 1) * 2 + 1);
         int temp2 = width - 1;
@@ -186,6 +278,9 @@ public class Board {
         }
     }
 
+    /**
+     * Creating pieces for third player ( lower right star arm )
+     */
     private void setThirdPlayer() {
         int temp = width - ((sideLength - 1) * 2 + 1);
         int temp2 = width - 1;
@@ -199,6 +294,9 @@ public class Board {
         }
     }
 
+    /**
+     * Creating pieces for fourth player ( lower star arm )
+     */
     private void setFourthPlayer() {
         int temp = width / 2;
         int temp2 = width / 2;
@@ -212,6 +310,9 @@ public class Board {
         }
     }
 
+    /**
+     * Creating pieces for fifth player ( lower left star arm )
+     */
     private void setFifthPlayer() {
         int temp = (sideLength - 1) * 2;
         int temp2 = 0;
@@ -225,6 +326,9 @@ public class Board {
         }
     }
 
+    /**
+     * Creating pieces for sixth player ( upper left star arm )
+     */
     private void setSixthPlayer() {
         int temp = (sideLength - 1) * 2;
         int temp2 = 0;
