@@ -5,18 +5,50 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Player class
+ */
 public class Player implements Runnable {
 
+    /**
+     * Player's socket
+     */
     private final Socket socket;
+    /**
+     * Input from Client
+     */
     private Scanner in;
+    /**
+     * Output from Player
+     */
     private PrintWriter out;
+    /**
+     * Game
+     */
     private final Game game;
 
-    private final int id;
+    /**
+     * Player number
+     */
+    private final int number;
+    /**
+     * Color / player id
+     */
     private int color;
+    /**
+     * Field for player's turn
+     */
     protected boolean turn = false;
+    /**
+     * Player state: 0 - active, 1 - won
+     */
     private int state = 0;
 
+    /**
+     * Player constructor
+     * @param socket player's socket
+     * @param game main game
+     */
     protected Player(Socket socket, Game game) {
         this.socket = socket;
         this.game = game;
@@ -25,30 +57,52 @@ public class Player implements Runnable {
             game.players.add(this);
         }
 
-        this.id = game.currentPlayers() - 1;
-        System.out.println(game.currentPlayers());
+        this.number = game.currentPlayers();
     }
 
+    /**
+     * Setting player's color
+     * @param color player's color
+     */
     protected void setColor(int color) {
         this.color = color;
     }
 
+    /**
+     * Getting player's color
+     * @return color
+     */
     protected int getColor() {
         return color;
     }
 
+    /**
+     * Setting player's state
+     * @param state player's state
+     */
     protected void setState(int state) {
         this.state = state;
     }
 
+    /**
+     * Getting player's state
+     * @return state
+     */
     protected int getState() {
         return state;
     }
 
+    /**
+     * Setting player's turn
+     * @param turn player's turn
+     */
     protected void setTurn(boolean turn) {
         this.turn = turn;
     }
 
+    /**
+     * Starts player's thread
+     */
     @Override
     public void run() {
         try {
@@ -61,11 +115,18 @@ public class Player implements Runnable {
         }
     }
 
+    /**
+     * Establishes communication with the Client class
+     * @throws IOException ioexception
+     */
     private void setup() throws IOException {
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
     }
 
+    /**
+     * Processing commands sent from the Client class
+     */
     private void processCommands() {
         while (in.hasNextLine()) {
             String command = in.nextLine();
@@ -81,7 +142,7 @@ public class Player implements Runnable {
                 game.assignColors();
                 game.sendToAll("COLOR");
 
-                if (id == game.goalPlayers - 1) {
+                if (number == game.getGoalPlayers()) {
                     game.randomPlayer();
                 }
 
@@ -125,6 +186,10 @@ public class Player implements Runnable {
         }
     }
 
+    /**
+     * Sending message back to the Client
+     * @param message message
+     */
     protected void sendMessage(String message) {
         if (message.startsWith("COLOR")) {
             out.println("COLOR" + " " + getColor() + " " + game.getGoalPlayers());

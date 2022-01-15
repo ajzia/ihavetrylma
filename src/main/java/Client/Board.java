@@ -44,7 +44,13 @@ public class Board {
      */
     private Label yourTurn;
 
+    /**
+     * Row of the first player's click
+     */
     protected int movingRow = -1;
+    /**
+     * Column of the first player's click
+     */
     protected int movingColumn = -1;
 
     /**

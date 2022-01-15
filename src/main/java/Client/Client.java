@@ -4,23 +4,57 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Client class
+ */
 public class Client {
 
+    /**
+     * Player's socket
+     */
     protected static Socket socket;
+    /**
+     * Input
+     */
     private final Scanner in;
+    /**
+     * Output
+     */
     private static PrintWriter out;
 
+    /**
+     * Player's turn
+     */
     protected static boolean turn = false;
+    /**
+     * Player's colour
+     */
     protected static int colour = -1;
 
+    /**
+     * BoardGUI
+     */
     protected BoardGUI boardGUI;
+    /**
+     * Lobby
+     */
     private Lobby lobby;
 
+    /**
+     * Connecting new clients and starting listening for commands
+     * @param args args
+     * @throws Exception problem with connection
+     */
     public static void main(String[] args) throws Exception {
         Client client = new Client("localhost");
         client.play();
     }
 
+    /**
+     * Client constructor
+     * @param serverAddress "localhost"
+     * @throws Exception exception
+     */
     private Client(String serverAddress) throws Exception {
         socket = new Socket(serverAddress, 15373);
 
@@ -30,6 +64,10 @@ public class Client {
         makeAction("PLAYER");
     }
 
+    /**
+     * Communication with the server, processing server messages
+     * @throws Exception exception
+     */
     private void play() throws Exception {
         try {
             while (in.hasNextLine()) {
@@ -109,6 +147,10 @@ public class Client {
         }
     }
 
+    /**
+     * Sending messages to the server
+     * @param action message
+     */
     public static void makeAction(String action) {
         out.println(action);
     }
