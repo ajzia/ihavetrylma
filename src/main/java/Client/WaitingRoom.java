@@ -27,7 +27,7 @@ public class WaitingRoom extends JFrame {
      * Method adding text area to the window with an information for players to wait for other
      * players to connect
      */
-    public void addTextArea() {
+    private void addTextArea() {
         JTextArea textArea = new JTextArea("Please wait for the other players to connect");
         textArea.setBounds(22, 20, 320, 30);
         textArea.setBackground(null);

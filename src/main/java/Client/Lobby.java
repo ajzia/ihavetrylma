@@ -13,11 +13,11 @@ public class Lobby extends JFrame {
     /**
      * Waiting room object
      */
-    WaitingRoom waitingRoom;
+    protected WaitingRoom waitingRoom;
     /**
      * Number of players
      */
-    int players;
+    protected int players;
 
     /**
      * Lobby constructor
@@ -44,7 +44,7 @@ public class Lobby extends JFrame {
     /**
      * Method adding text "Choose number of players: "
      */
-    public void addTextArea() {
+    private void addTextArea() {
         JTextArea textArea = new JTextArea("Choose number of players: ");
         textArea.setBounds(42, 20, 200, 30);
         textArea.setBackground(null);
@@ -58,7 +58,7 @@ public class Lobby extends JFrame {
     /**
      * Method creating buttons, adding them to the lobby window and giving them actions
      */
-    public void addButtons() {
+    private void addButtons() {
         JButton two = new JButton("two");
         JButton three = new JButton("three");
         JButton four = new JButton("four");
@@ -98,7 +98,7 @@ public class Lobby extends JFrame {
     /**
      * Method setting number of players
      */
-    public void clicked() {
+    private void clicked() {
         makeAction("GOAL" + " " + players);
         this.dispose();
         makeWaitingRoom();
@@ -107,7 +107,7 @@ public class Lobby extends JFrame {
     /**
      * Method making waiting room for players
      */
-    public void makeWaitingRoom() {
+    protected void makeWaitingRoom() {
         waitingRoom = new WaitingRoom();
     }
 
@@ -115,7 +115,7 @@ public class Lobby extends JFrame {
      * Method returning waiting room
      * @return waiting room
      */
-    public WaitingRoom getWaitingRoom() {
+    protected WaitingRoom getWaitingRoom() {
         return waitingRoom;
     }
 
